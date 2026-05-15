@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Laravel Tailwind</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Hunter</title>
+    @vite(['resources/css/app.css'])
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
-
-    <h1 class="text-5xl font-bold text-blue-400">
-        Tailwind berhasil dipasang
-    </h1>
-
+<body class="min-h-screen bg-slate-50 flex items-center justify-center">
+    <a href="{{ url('/') }}" class="text-blue-600 underline">Ke Halaman Login</a>
 </body>
 </html>
