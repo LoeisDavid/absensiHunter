@@ -44,11 +44,22 @@ class DashboardController extends Controller
                 ];
             }, $recent);
 
+            /**
+            * Pisahkan berdasarkan role
+            */
+            $recentPeserta = array_filter($recentList, function ($item) {
+                return strtolower($item['role']) === 'peserta';
+            });
+
+            $recentPengurus = array_filter($recentList, function ($item) {
+                return strtolower($item['role']) === 'pengurus';
+            });
+
         } catch (\Exception $e) {
             $counts     = ['peserta' => 0, 'pengurus' => 0];
             $recentList = [];
         }
 
-        return view('dashboard.index', compact('counts', 'recentList'));
+        return view('dashboard.index', compact('counts', 'recentPeserta', 'recentPengurus'));
     }
 }
