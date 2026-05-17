@@ -61,4 +61,14 @@ class AbsensiController extends Controller
             return [];
         }
     }
+
+    public function peserta2()
+    {
+        return view('absensi.peserta2');
+    }
+
+    public function pengurus2()
+    {
+        return view('absensi.pengurus2');
+    }
 }

@@ -14,15 +14,10 @@
 
         {{-- Logo --}}
         <div class="flex items-center gap-3">
-            <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="20,2 38,32 2,32" fill="white" opacity="0.1"/>
-                <polygon points="20,5 10,30 20,25" fill="#ef4444"/>
-                <polygon points="20,5 30,30 20,25" fill="#22c55e"/>
-                <polygon points="10,30 30,30 20,25" fill="#3b82f6"/>
-            </svg>
+            <img src="{{ asset('img/logo/logo_tanpa_nama.png') }}" alt="Logo" class="w-16 h-16 object-contain">
             <div>
-                <p class="text-sm font-bold text-white leading-tight tracking-wider">HUNTER</p>
-                <p class="text-[10px] text-white/50 leading-tight tracking-[0.3em]">COMMUNITY</p>
+                <p class="text-xl text-center text-white leading-tight tracking-wider font-hunter">HUNTER</p>
+                <p class="text-base text-white leading-tight font-community">COMMUNITY</p>
             </div>
         </div>
 
@@ -174,7 +169,7 @@
         scanner = new Html5Qrcode('qr-reader');
         scanner.start(
             { facingMode: 'environment' },
-            { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 },
+            { fps: 10, qrbox: { width: 450, height: 450 }, aspectRatio: 1.0 },
             onScanSuccess,
             () => {}
         ).then(() => {
