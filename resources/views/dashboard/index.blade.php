@@ -92,7 +92,7 @@
         <div class="bg-white rounded-xl shadow-sm p-6 font-title">
             <div class="flex items-center justify-between px-4">
                 <h2 class="text-lg font-semibold">Peserta yang hadir</h2>
-                <a class="text-xs text-[#D91E2E] font-semibold" href="#">See more...</a>
+                <a class="text-xs text-[#D91E2E] font-semibold" href="{{ route('absensi.peserta') }}">See more...</a>
             </div>
 
             <!-- List Peserta -->
@@ -132,7 +132,7 @@
         <div class="bg-white rounded-xl shadow-sm p-6 font-title">
             <div class="flex items-center justify-between px-4">
                 <h2 class="text-lg font-semibold">Panitia yang hadir</h2>
-                <a class="text-xs text-[#D91E2E] font-semibold" href="#">See more...</a>
+                <a class="text-xs text-[#D91E2E] font-semibold" href="{{ route('absensi.pengurus') }}">See more...</a>
             </div>
             <!-- List Peserta -->
                 <div class="mt-8 space-y-4">
