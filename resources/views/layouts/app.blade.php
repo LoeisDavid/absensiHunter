@@ -6,7 +6,7 @@
     <title>@yield('title', 'Absensi Hunter')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-[#FAFAFA] min-h-[100dvh] antialiased selection:bg-blue-200">
+<body class="bg-[#FAFAFA] min-h-dvh antialiased selection:bg-blue-200">
     <!-- Wrapper -->
     <main class="max-w-full px-4 py-4 sm:px-6 sm:py-6 space-y-4 sm:space-y-6">
         <!-- Header -->

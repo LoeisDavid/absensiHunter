@@ -21,7 +21,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Scan
-    Route::get('/scan',       [ScanController::class, 'index'])->name('scan');
+    Route::get('/scan', [ScanController::class, 'index'])->name('scan');
     Route::post('/scan/absen',[ScanController::class, 'absen'])->name('scan.absen');
 
     // Data Diri (tampil setelah scan)
@@ -29,10 +29,11 @@ Route::middleware(AuthMiddleware::class)->group(function () {
 
     // Tabel Absensi
     Route::get('/absensi/peserta',  [AbsensiController::class, 'peserta'])->name('absensi.peserta');
+    Route::get('/absensi/pengurus', [AbsensiController::class, 'pengurus'])->name('absensi.pengurus');
     
     // Rekap / Detail Absensi
     Route::get('/rekap', [RekapController::class, 'index'])->name('rekap.index');
     Route::get('/rekap/{id}', [RekapController::class, 'show'])->name('rekap.show');
     
 });
-Route::get('/absensi/pengurus', [AbsensiController::class, 'pengurus'])->name('absensi.pengurus');
+
