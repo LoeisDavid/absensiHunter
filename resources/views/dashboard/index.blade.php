@@ -35,7 +35,7 @@
                         </p>
 
                         <span class="hidden sm:block sm:text-md opacity-75">
-                            Dari 32 peserta
+                            Dari {{ count($all_peserta) }} peserta
                         </span>
                     </div>
                     <!-- end left -->
@@ -67,7 +67,7 @@
                         </p>
 
                         <span class="hidden sm:block text-xs sm:text-md">
-                            Dari 32 peserta
+                            Dari {{ count($all_pengurus) }} peserta
                         </span>
                     </div>
                     <!-- end left -->
