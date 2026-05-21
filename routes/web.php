@@ -28,5 +28,6 @@ Route::middleware(AuthMiddleware::class)->group(function () {
 
     // Tabel Absensi
     Route::get('/absensi/peserta',  [AbsensiController::class, 'peserta'])->name('absensi.peserta');
-    Route::get('/absensi/pengurus', [AbsensiController::class, 'pengurus'])->name('absensi.pengurus');
+    
 });
+Route::get('/absensi/pengurus', [AbsensiController::class, 'pengurus'])->name('absensi.pengurus');

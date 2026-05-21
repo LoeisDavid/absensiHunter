@@ -75,6 +75,7 @@
         <div class="divide-y divide-gray-100">
 
             <!-- Row -->
+             @forelse($data as $i => $row)
             <div class="grid grid-cols-4 items-center py-5 font-body text-body-text">
 
                 <!-- Nama -->
@@ -91,11 +92,11 @@
                     <div>
 
                         <h3 class="font-semibold text-base">
-                            Muhammad Nailul Fadhil
+                            {{ $row['nama'] }}
                         </h3>
 
                         <p class="text-sm text-gray-500">
-                            Frontend Developer
+                            {{ $row['divisi'] }}
                         </p>
 
                     </div>
@@ -105,7 +106,7 @@
 
                 <!-- NIS -->
                 <div class="text-base font-medium">
-                    101.01.2001
+                    {{ $row['nis'] }}
                 </div>
 
 
@@ -113,7 +114,7 @@
                 <div class="flex justify-center">
 
                     <p class="block bg-[#2DA635]/25 border-3 border-[#7AC77F] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
-                        09:00
+                        {{ $row['waktu_datang'] }}
                     </p>
 
                 </div>
@@ -123,20 +124,25 @@
                 <div class="flex justify-center">
 
                     <p class="block bg-[#D91E2E]/25 border-3 border-[#EC7E8B] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
-                        17:00
+                        {{ $row['waktu_pulang'] }}
                     </p>
 
                 </div>
             </div>
+            @empty
+            <div class="grid grid-cols-4 items-center py-5 font-body text-body-text">
+                Tidak ada data
+            </div>
+            @endforelse
         </div>
     </div>
 
 
 
     <!-- Legend -->
-    <div class="flex flex-wrap items-center gap-16 mt-10 font-title">
+    <!-- <div class="flex flex-wrap items-center gap-16 mt-10 font-title"> -->
         <!-- Hadir -->
-        <div class="flex items-center gap-4">
+        <!-- <div class="flex items-center gap-4">
 
             <p class="block bg-[#2DA635]/25 border-3 border-[#7AC77F] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
                 09:00
@@ -144,11 +150,11 @@
             <span class="font-semibold text-body-text text-base">
                 Waktu Hadir
             </span>
-        </div>
+        </div> -->
 
 
         <!-- Keluar -->
-        <div class="flex items-center gap-4">
+        <!-- <div class="flex items-center gap-4">
             <div class="bg-[#D91E2E]/25 border-3 border-[#EC7E8B] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
                 17:00
             </div>
@@ -156,11 +162,11 @@
             <span class="font-semibold text-body-text text-base">
                 Waktu Keluar
             </span>
-        </div>
+        </div> -->
 
 
         <!-- Belum Absen -->
-        <div class="flex items-center gap-4">
+        <!-- <div class="flex items-center gap-4">
 
             <div class="bg-[#0047C5]/25 border-3 border-[#7095DC] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
                 -- : --
@@ -172,5 +178,5 @@
 
         </div>
 
-    </div>
+    </div> -->
 @endsection
