@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\RekapController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,10 @@ Route::middleware(AuthMiddleware::class)->group(function () {
 
     // Tabel Absensi
     Route::get('/absensi/peserta',  [AbsensiController::class, 'peserta'])->name('absensi.peserta');
+    
+    // Rekap / Detail Absensi
+    Route::get('/rekap', [RekapController::class, 'index'])->name('rekap.index');
+    Route::get('/rekap/{id}', [RekapController::class, 'show'])->name('rekap.show');
     
 });
 Route::get('/absensi/pengurus', [AbsensiController::class, 'pengurus'])->name('absensi.pengurus');
