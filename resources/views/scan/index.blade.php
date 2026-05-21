@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-<div class="relative min-h-screen bg-black flex flex-col">
+<div class="relative min-h-[100dvh] bg-black flex flex-col">
 
     {{-- Header --}}
     <div class="absolute top-0 left-0 right-0 z-20 p-4 sm:p-6 flex items-center justify-between">
