@@ -32,11 +32,37 @@
                 </div>
 
             </div>
+            <!-- End Logo -->
+
+            <!-- Menu -->
+            <div class="flex items-center font-title gap-12 font-bold text-lg">
+                <a href="{{ route('dashboard') }}" class="relative py-2">
+                    Beranda
+                    @if(request()->routeIs('dashboard'))
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-black/50 rounded-full"></div>
+                    @endif
+                </a>
+                @php
+                    $isHadir = request()->routeIs([
+                        'absensi.peserta',
+                        'absensi.pengurus'
+                    ]);
+                @endphp
+                <a href="{{ route('absensi.peserta') }}" class="relative py-2">Hadir
+                    @if($isHadir)
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-black/50 rounded-full"></div>
+                    @endif
+                </a>
+                <a href="#" class="relative py-2">Jadwal</a>
+                <a href="#" class="relative py-2">Anggota</a>
+                <a href="#" class="relative py-2">Detail</a>
+            </div>
+            <!-- End Menu -->
 
             <!-- Right Header -->
             <div class="flex items-center font-body gap-2 sm:gap-4">
                 <!-- Rekap Absensi -->
-                <a href="{{ route('rekap.index') }}" class="shadow-md rounded-lg p-2 sm:bg-[#2DA635]/10 sm:text-[#238529] sm:shadow-none sm:px-4 sm:py-2 text-[#363636] hover:bg-[#2DA635]/20 transition flex items-center gap-2 font-bold font-title text-sm sm:text-base border border-transparent sm:border-[#7AC77F]">
+                <!-- <a href="{{ route('rekap.index') }}" class="shadow-md rounded-lg p-2 sm:bg-[#2DA635]/10 sm:text-[#238529] sm:shadow-none sm:px-4 sm:py-2 text-[#363636] hover:bg-[#2DA635]/20 transition flex items-center gap-2 font-bold font-title text-sm sm:text-base border border-transparent sm:border-[#7AC77F]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
@@ -45,7 +71,7 @@
                         <polyline points="10 9 9 9 8 9"></polyline>
                     </svg>
                     <span class="hidden sm:block">Rekap</span>
-                </a>
+                </a> -->
 
                 <!-- Qr -->
                 <a href="{{ route('scan') }}" class="shadow-md rounded-lg p-2 sm:bg-transparent sm:shadow-none sm:p-0 text-[#363636] hover:text-[#4d4d4d] transition flex items-center justify-center">
@@ -58,8 +84,8 @@
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"
-                        class="bg-[#363636] hover:bg-[#4d4d4d] transition text-white p-2 sm:px-6 sm:py-2 rounded-lg sm:rounded-r-lg sm:rounded-bl-lg shadow-sm font-bold cursor-pointer inline-flex items-center gap-2">
-                        
+                        class="bg-[#363636] hover:bg-[#4d4d4d] transition text-white p-2 sm:px-6 sm:py-2 rounded-r-lg rounded-bl-lg sm:rounded-r-lg sm:rounded-bl-lg shadow-sm font-bold cursor-pointer inline-flex items-center gap-2">
+                        <span class="hidden sm:block font-bold">Log out</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none" />
                             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -67,8 +93,6 @@
                                 <path d="M9 12h12l-3-3m0 6l3-3" />
                             </g>
                         </svg>
-
-                        <span class="hidden sm:block font-bold">Log out</span>
                     </button>
                 </form>
             </div>

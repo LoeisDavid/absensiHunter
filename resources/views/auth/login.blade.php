@@ -6,7 +6,7 @@
     <title>Login Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-cover bg-center bg-no-repeat min-h-screen
+<body class="bg-cover bg-center bg-no-repeat min-h-dvh
     bg-[url('/public/img/login/background_mobile.png')]
     lg:bg-[url('/public/img/login/background.png')]
 ">
