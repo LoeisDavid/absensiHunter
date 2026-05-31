@@ -58,7 +58,18 @@
                         <div class="absolute bottom-0 left-0 w-full h-0.75 bg-black/50 rounded-full"></div>
                     @endif
                 </a>
-                <a href="#" class="relative py-2">Anggota</a>
+                @php
+                    $isMember = request()->routeIs([
+                        'member.index',
+                        'member.peserta',
+                        'member.pengurus'
+                    ]);
+                @endphp
+                <a href="{{ route('member.index') }}" class="relative py-2">Anggota
+                    @if($isMember)
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-black/50 rounded-full"></div>
+                    @endif
+                </a>
                 <a href="#" class="relative py-2">Detail</a>
             </div>
             <!-- End Menu -->
