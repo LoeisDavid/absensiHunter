@@ -216,7 +216,7 @@
                         Waktu Hadir
                     </span>
 
-                    <p class="bg-[#2DA635]/50 border-2 border-[#7AC77F]
+                    <p class="bg-[#2DA635]/75 border-2 border-[#2DA635]
                         text-white font-bold px-5 py-1 rounded-md shadow-sm text-xs">
 
                         {{ $row['waktu_datang'] }}
@@ -227,21 +227,20 @@
 
 
                 <!-- Waktu Keluar -->
-                <div class="flex items-center justify-between text-sm">
+                <div class="flex justify-center">
+                    @if ($row['waktu_pulang'] === '-')
+                        <p class="block bg-[#0047C5]/75 border-3 border-[#0047C5] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
+                        -- : --
+                        </p>
 
-                    <span class="font-semibold opacity-75">
-                        Waktu Keluar
-                    </span>
-
-                    <p class="bg-[#D91E2E]/50 border-2 border-[#EC7E8B]
-                        text-white font-bold px-5 py-1 rounded-md shadow-sm text-xs">
-
+                    @else
+                        <p class="block bg-[#D91E2E]/75 border-3 border-[#D91E2E] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
                         {{ $row['waktu_pulang'] }}
-
-                    </p>
+                        </p>
+                    @endif
 
                 </div>
-
+                <!-- end Waktu Keluar -->
             </div>
 
         </details>
