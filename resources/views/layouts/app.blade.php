@@ -53,7 +53,11 @@
                         <div class="absolute bottom-0 left-0 w-full h-0.75 bg-black/50 rounded-full"></div>
                     @endif
                 </a>
-                <a href="#" class="relative py-2">Jadwal</a>
+                <a href="{{ route('jadwal.index') }}" class="relative py-2">Jadwal
+                    @if(request()->routeIs('jadwal.index'))
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-black/50 rounded-full"></div>
+                    @endif
+                </a>
                 <a href="#" class="relative py-2">Anggota</a>
                 <a href="#" class="relative py-2">Detail</a>
             </div>
