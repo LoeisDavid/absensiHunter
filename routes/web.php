@@ -7,6 +7,7 @@ use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MemberController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +39,11 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     
     // Jadwal
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
+
+
+    // Anggota
+    Route::get('/anggota', [MemberController::class, 'index'])->name('member.index');
+    Route::get('/anggota/peserta', [MemberController::class, 'peserta'])->name('member.peserta');
+    Route::get('/anggota/pengurus', [MemberController::class, 'pengurus'])->name('member.pengurus');
 });
 
