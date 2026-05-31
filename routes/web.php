@@ -6,6 +6,7 @@ use App\Http\Controllers\ScanController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\RekapController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +36,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/rekap', [RekapController::class, 'index'])->name('rekap.index');
     Route::get('/rekap/{id}', [RekapController::class, 'show'])->name('rekap.show');
     
+    // Jadwal
+    Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
 });
 
