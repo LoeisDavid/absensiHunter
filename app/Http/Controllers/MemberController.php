@@ -20,4 +20,9 @@ class MemberController extends Controller
     {
         return view('member.pengurus');
     }
+
+    public function show()
+    {
+        return view('member.show');
+    }
 }

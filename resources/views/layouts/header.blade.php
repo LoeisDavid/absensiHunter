@@ -51,7 +51,8 @@
                     $isMember = request()->routeIs([
                         'member.index',
                         'member.peserta',
-                        'member.pengurus'
+                        'member.pengurus',
+                        'member.show'
                     ]);
                 @endphp
                 <a href="{{ route('member.index') }}" class="relative py-2">Anggota
