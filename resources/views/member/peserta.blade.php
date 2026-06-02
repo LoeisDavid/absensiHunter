@@ -7,22 +7,8 @@
         <!-- Back + Title -->
         <div class="flex items-center gap-3 sm:gap-6 font-title">
 
-            <!-- Back Button -->
-            <a
-                href="{{ route('dashboard') }}"
-                class="bg-[#363636] hover:bg-[#4d4d4d] transition text-white px-4 py-1 sm:px-8 sm:py-3 rounded-lg sm:rounded-2xl shadow-sm font-bold text-base sm:text-lg flex items-center gap-2"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 9" class="w-6 h-6 sm:w-8 sm:h-8 shrink-0">
-                    <path d="M0 0h16v9H0z" fill="none" />
-                    <path fill="currentColor" d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5" />
-                    <path fill="currentColor" d="M6 8.5a.47.47 0 0 1-.35-.15l-3.5-3.5c-.2-.2-.2-.51 0-.71L5.65.65c.2-.2.51-.2.71 0s.2.51 0 .71L3.21 4.51l3.15 3.15c.2.2.2.51 0 .71c-.1.1-.23.15-.35.15Z" />
-                </svg>
-
-                <span class="hidden sm:block">Back</span>
-            </a>
-
             <!-- Title -->
-            <h1 class="text-xl sm:text-2xl font-bold text-body-text">
+            <h1 class="text-xl sm:text-2xl font-bold text-body-text px-6">
                 Anggota
             </h1>
 
@@ -93,7 +79,7 @@
         <div class="divide-y divide-gray-100">
 
             <!-- Row -->
-            
+            <a href="{{ route('member.show') }}" class="block hover:bg-gray-100 transition">
             <div class="grid grid-cols-5 items-center py-5 font-body text-body-text/75">
 
                 <!-- Nama -->
@@ -140,6 +126,7 @@
                     Panitia
                 </div>
             </div>
+            </a>
         </div>
     </div>
     <!-- end Table Wrapper -->

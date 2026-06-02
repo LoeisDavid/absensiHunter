@@ -46,6 +46,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/anggota', [MemberController::class, 'index'])->name('member.index');
     Route::get('/anggota/peserta', [MemberController::class, 'peserta'])->name('member.peserta');
     Route::get('/anggota/pengurus', [MemberController::class, 'pengurus'])->name('member.pengurus');
+    Route::get('/anggota/show', [MemberController::class, 'show'])->name('member.show');
 
 
     // Detail Absensi
