@@ -39,9 +39,15 @@
 
                         <form action="#" method="POST" class="flex flex-col gap-8">
                             <div class="flex flex-col gap-3">
-                                <label class="font-bold text-lg">Date (DD/MM/YYYY)</label>
-                                <input type="date" placeholder="--/--/----" 
-                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black focus:outline-none bg-[#F5F5F5] text-base font-medium">
+                                <label class="font-bold text-lg" for="activity">Activity</label>
+                                <input type="text" id="activity" placeholder="Contoh: Kelas Coding" 
+                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black focus:outline-none bg-whitesmoke text-base font-medium">
+                            </div>
+
+                            <div class="flex flex-col gap-3">
+                                <label class="font-bold text-lg" for="date">Date (DD/MM/YYYY)</label>
+                                <input type="date" id="date" placeholder="--/--/----" 
+                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black focus:outline-none bg-whitesmoke text-base font-medium">
                             </div>
 
                             <div class="flex flex-col gap-3">
@@ -49,7 +55,7 @@
                                 
                                 <div class="relative">
                                     <select name="role" id="role" 
-                                        class="w-full px-6 py-4 rounded-2xl border-2 border-black bg-[#F5F5F5] text-base font-medium appearance-none cursor-pointer transition-all outline-none">
+                                        class="w-full px-6 py-4 rounded-2xl border-2 border-black bg-whitesmoke text-base font-medium appearance-none cursor-pointer transition-all outline-none">
                                         <option value="" disabled selected>Pilih Role</option>
                                         <option value="peserta">Peserta</option>
                                         <option value="pengurus">Panitia</option>
@@ -83,56 +89,70 @@
     <!-- end Header -->
 
     <!-- Table -->
-    <div class="w-full mt-8 bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm font-title">
-        <div class="grid grid-cols-12 p-6 bg-white border-b border-gray-100 font-bold text-gray-800 text-lg">
-            <div class="col-span-6 text-center">Tanggal</div>
-            <div class="col-span-6 text-center">Total Peserta & Panitia yang hadir</div>
+    <div class="w-full mt-8 bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm font-title flex flex-col items-center">
+        <table class="w-full border-collapse text-center mt-4">
+            <thead>
+                <tr class="text-gray-900">
+                    <th class="font-bold text-xl px-6 py-6">Tanggal</th>
+                    <th class="font-bold text-xl px-6 py-6">Kegiatan</th>
+                    <th class="font-bold text-xl px-6 py-6">Total</th>
+                    <th class="font-bold text-xl px-6 py-6">Peran</th>
+                    <th class="font-bold text-xl px-6 py-6">Status</th>
+                    <th class="font-bold text-xl px-6 py-6">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="text-body-text text-lg font-medium">
+                <tr class="border-t border-gray-100">
+                    <td class="px-6 py-5">06 Juni 2026</td>
+                    <td class="px-6 py-5">Kelas coding Hunter</td>
+                    <td class="px-6 py-5">10</td>
+                    <td class="px-6 py-5">Panitia</td>
+                    <td class="px-6 py-5">Berlangsung</td>
+                    <td class="px-6 py-5">
+                        <a href="{{ route('jadwal.show') }}" class="inline-block px-8 py-2 bg-graphite/75 text-white rounded-xl font-bold text-lg shadow-sm transition">
+                            Detail
+                        </a>
+                    </td>
+                </tr>
+                <tr class="border-t border-gray-100">
+                    <td class="px-6 py-5">08 Juni 2026</td>
+                    <td class="px-6 py-5">Jam Kantor</td>
+                    <td class="px-6 py-5">0</td>
+                    <td class="px-6 py-5">Panitia</td>
+                    <td class="px-6 py-5">Segera</td>
+                    <td class="px-6 py-5">
+                        <a href="#" disabled class="px-8 py-2 border-2 border-gray-200 text-gray-300 rounded-xl font-bold text-lg bg-white cursor-not-allowed">
+                            Detail
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flex items-center gap-2 mt-4 mb-8 font-bold text-lg select-none">
+            <a href="#" class="w-9 h-9 flex items-center justify-center ">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </a>
+
+            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 text-gray-700 transition">
+                1
+            </a>
+
+            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-graphite/75 text-white  transition">
+                2
+            </a>
+
+            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-graphite/75 text-white  transition">
+                3
+            </a>
+
+            <a href="#" class="w-9 h-9 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </a>
         </div>
-
-        <details class="group border-b border-gray-100 last:border-none font-body">
-            <summary class="grid grid-cols-12 p-6 cursor-pointer items-center list-none hover:bg-gray-50 transition-colors">
-                <div class="col-span-6 text-center text-gray-700 font-medium">
-                    Jumat, 29 Mei 2026
-                </div>
-
-                <div class="col-span-6 flex items-center pr-4">
-                    <span class="flex-1 text-center text-gray-700 font-medium">10</span>
-                    
-                    <svg class="w-5 h-5 transition-transform group-open:rotate-180 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </div>
-            </summary>
-
-            <div class="p-6 bg-[#F8F9FA] grid grid-cols-2 gap-3">
-                
-                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xl">
-                    <h4 class="font-bold text-xl mb-6 font-title">Peserta yang hadir</h4>
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4 pb-4 border-b border-gray-50 last:border-none">
-                            <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full" alt="">
-                            <div class="opacity-75">
-                                <p class="font-bold text-sm">Muhammad Nailul Fadhil</p>
-                                <p class="text-xs">Frontend Developer</p>
-                            </div>
-                        </div>
-                        </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xl">
-                    <h4 class="font-bold text-xl mb-6 font-title">Panitia yang hadir</h4>
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4 pb-4 border-b border-gray-50 last:border-none">
-                            <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full" alt="">
-                            <div class="opacity-75">
-                                <p class="font-bold text-sm">Muhammad Nabil Junior</p>
-                                <p class= "text-xs">Frontend Developer</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </details>
     </div>
 @endsection
