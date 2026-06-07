@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Login Admin</title>
     <script>
         (function() {
@@ -15,6 +15,18 @@
         })();
     </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        (function () {
+            document.addEventListener('wheel', function (e) {
+                if (e.ctrlKey) { e.preventDefault(); }
+            }, { passive: false });
+            document.addEventListener('keydown', function (e) {
+                if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '_' || e.key === '0')) {
+                    e.preventDefault();
+                }
+            });
+        })();
+    </script>
 </head>
 <body class="bg-cover bg-center bg-no-repeat min-h-dvh
     bg-[url('/public/img/login/background_mobile.png')]
