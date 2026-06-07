@@ -85,20 +85,22 @@ class AbsensiModel
         $rows = $this->sheets->getRange("{$this->sheet}!A2:F");
 
         $counts = ['peserta' => 0, 'pengurus' => 0];
-        $allMapped = [];
+        $todayMapped = [];
 
         foreach ($rows as $row) {
             $mapped = $this->map($row);
-            $allMapped[] = $mapped;
 
-            // Hitung kehadiran hari ini
-            if ($mapped['tanggal'] === $today && isset($counts[$mapped['role']])) {
-                $counts[$mapped['role']]++;
+            // Hitung kehadiran hari ini & ambil data hari ini saja
+            if ($mapped['tanggal'] === $today) {
+                if (isset($counts[$mapped['role']])) {
+                    $counts[$mapped['role']]++;
+                }
+                $todayMapped[] = $mapped;
             }
         }
 
-        // Ambil N terbaru (dari belakang)
-        $recent = array_slice(array_reverse($allMapped), 0, $recentLimit);
+        // Ambil N terbaru (dari belakang) dari hari ini saja
+        $recent = array_slice(array_reverse($todayMapped), 0, $recentLimit);
 
         return compact('counts', 'recent');
     }

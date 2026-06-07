@@ -79,6 +79,7 @@ class DashboardController extends Controller
                     'nama'         => $anggota['nama'] ?? 'Unknown',
                     'role'         => strtolower(trim($absen['role'] ?? ($anggota['role'] ?? ''))),
                     'waktu_datang' => $absen['waktu_datang'] ?? '',
+                    'photo'        => $anggota['photo'] ?? null,
                 ];
             }, $recent);
 

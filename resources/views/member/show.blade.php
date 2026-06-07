@@ -36,11 +36,17 @@
         <div class="flex items-start gap-12">
 
             <!-- Foto -->
-            <img
-                src="https://i.pravatar.cc/200?img=12"
-                alt="Avatar"
-                class="w-44 h-44 rounded-full object-cover shrink-0"
-            >
+            @if(!empty($anggota['photo']) && file_exists(public_path($anggota['photo'])))
+                <img
+                    src="{{ asset($anggota['photo']) }}"
+                    alt="Avatar"
+                    class="w-44 h-44 rounded-full object-cover shrink-0"
+                >
+            @else
+                <div class="w-44 h-44 rounded-full bg-slate-200 text-slate-800 font-bold text-7xl flex items-center justify-center uppercase font-title shrink-0">
+                    {{ substr($anggota['nama'] ?? '?', 0, 1) }}
+                </div>
+            @endif
 
             <!-- Biodata -->
             <div class="space-y-10 font-title text-body-text">
@@ -49,15 +55,15 @@
                     <span class="font-bold text-xl w-32">Nama</span>
                     <span class="font-bold text-xl mr-6">:</span>
                     <span class="text-xl">
-                        Muhammad Nailul Fadhil Atiandra Kurniawan
+                        {{ $anggota['nama'] }}
                     </span>
                 </div>
 
                 <div class="flex items-center">
                     <span class="font-bold text-xl w-32">NIS</span>
                     <span class="font-bold text-xl mr-6">:</span>
-                    <span class="text-xl">
-                        01.101.2001
+                    <span class="text-xl font-mono">
+                        {{ $anggota['nis'] }}
                     </span>
                 </div>
 
@@ -65,7 +71,7 @@
                     <span class="font-bold text-xl w-32">Divisi</span>
                     <span class="font-bold text-xl mr-6">:</span>
                     <span class="text-xl">
-                        Frontend
+                        {{ $anggota['divisi'] }}
                     </span>
                 </div>
 
@@ -79,7 +85,7 @@
                     </span>
 
                     <span class="text-xl">
-                        Publikasi, Dekorasi dan Dokumentasi
+                        {{ $anggota['jabatan'] }}
                     </span>
                 </div>
 
@@ -94,7 +100,7 @@
 
             <div class="bg-[#5C5C5C] text-white rounded-2xl w-32 h-48 flex flex-col justify-center items-center">
                 <h3 class="text-5xl font-bold">
-                    5
+                    {{ $jumlahHadir }}
                 </h3>
 
                 <p class="text-center opacity-75 font-semibold text-lg mt-4">
@@ -106,7 +112,7 @@
 
             <div class="bg-[#5C5C5C] text-white rounded-2xl w-32 h-48 flex flex-col justify-center items-center">
                 <h3 class="text-5xl font-bold">
-                    6
+                    {{ $jadwalHadir }}
                 </h3>
 
                 <p class="text-center opacity-75 font-semibold text-lg mt-4">
@@ -118,7 +124,7 @@
 
             <div class="bg-[#5C5C5C] text-white rounded-2xl w-32 h-48 flex flex-col justify-center items-center">
                 <h3 class="text-5xl font-bold">
-                    1
+                    {{ $tidakHadir }}
                 </h3>
 
                 <p class="text-center opacity-75 font-semibold text-lg mt-4">
@@ -130,7 +136,7 @@
 
             <div class="bg-[#5C5C5C] text-white rounded-3xl w-32 h-48 flex flex-col justify-center items-center">
                 <h3 class="text-5xl font-bold">
-                    1
+                    {{ $extraHadir }}
                 </h3>
 
                 <p class="text-center opacity-75 font-semibold text-lg mt-4">
@@ -176,67 +182,41 @@
                 </thead>
 
                 <tbody class="font-body text-lg">
-
+                    @forelse ($rincian as $row)
                     <tr class="border-b border-gray-200">
-
                         <td class="py-5 text-center">
-                            Jumat, 29 Mei 2026
+                            {{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('l, d F Y') }}
                         </td>
-
                         <td class="py-5 text-center">
-                            <span class="inline-block bg-[#2DA635]/75 border-3 border-[#2DA635] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
-                                09:00
-                            </span>
-                        </td>
-
-                        <td class="py-5 text-center">
-                            <span class="inline-block bg-[#D91E2E]/75 border-3 border-[#D91E2E] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
-                                17:00
-                            </span>
-                        </td>
-
-                    </tr>
-
-                    <tr class="border-b border-gray-200">
-
-                        <td class="py-5 text-center">
-                            Sabtu, 30 Mei 2026
-                        </td>
-
-                        <td class="py-5 text-center">
-                            <span class="inline-block bg-[#2DA635]/75 border-3 border-[#2DA635] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
-                                09:00
-                            </span>
-                        </td>
-
-                        <td class="py-5 text-center">
-                            <span class="inline-block bg-[#D91E2E]/75 border-3 border-[#D91E2E] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
-                                17:50
-                            </span>
-                        </td>
-
-                    </tr>
-
-                    <tr class="border-b border-gray-200">
-
-                        <td class="py-5 text-center">
-                            Minggu, 31 Mei 2026
-                        </td>
-
-                        <td class="py-5 text-center">
-                            <span class="inline-block bg-[#2DA635]/75 border-3 border-[#2DA635] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
-                                09:00
-                            </span>
-                        </td>
-
-                        <td class="py-5 text-center">
+                            @if ($row['waktu_datang'] === '-')
                             <span class="inline-block bg-[#0047C5]/75 border-3 border-[#0047C5] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
                                 -- : --
                             </span>
+                            @else
+                            <span class="inline-block bg-[#2DA635]/75 border-3 border-[#2DA635] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
+                                {{ $row['waktu_datang'] }}
+                            </span>
+                            @endif
                         </td>
-
+                        <td class="py-5 text-center">
+                            @if ($row['waktu_pulang'] === '-')
+                            <span class="inline-block bg-[#0047C5]/75 border-3 border-[#0047C5] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
+                                -- : --
+                            </span>
+                            @else
+                            <span class="inline-block bg-[#D91E2E]/75 border-3 border-[#D91E2E] text-white font-bold px-10 py-2 rounded-xl shadow-sm">
+                                {{ $row['waktu_pulang'] }}
+                            </span>
+                            @endif
+                        </td>
                     </tr>
-
+                    @empty
+                    <tr>
+                        <td colspan="3" class="py-5 text-center text-gray-500 font-semibold">
+                            Belum ada riwayat kehadiran.
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
 
             </table>

@@ -100,11 +100,17 @@
                     @forelse($recentPeserta as $peserta)
                     <div class="flex items-center gap-3 px-2 sm:gap-4 sm:px-4 pb-4 border-b border-gray-100 font-body">
                         <!-- Photo -->
-                            <img
-                                src="https://i.pravatar.cc/150?img=1"
-                                alt="Profile"
-                                class="w-10 h-10 sm:w-16 sm:h-16 rounded-full object-cover"
-                            >
+                            @if(!empty($peserta['photo']) && file_exists(public_path($peserta['photo'])))
+                                <img
+                                    src="{{ asset($peserta['photo']) }}"
+                                    alt="Profile"
+                                    class="w-10 h-10 sm:w-16 sm:h-16 rounded-full object-cover shrink-0"
+                                >
+                            @else
+                                <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-slate-200 text-slate-800 font-bold text-lg sm:text-2xl flex items-center justify-center uppercase font-title shrink-0">
+                                    {{ substr($peserta['nama'] ?? '?', 0, 1) }}
+                                </div>
+                            @endif
                         <!-- Info -->
                             <div class="flex flex-col opacity-75">
 
@@ -139,11 +145,17 @@
                     @forelse($recentPengurus as $pengurus)
                     <div class="flex items-center gap-3 px-2 sm:gap-4 sm:px-4 pb-4 border-b border-gray-100 font-body">
                         <!-- Photo -->
-                            <img
-                                src="https://i.pravatar.cc/150?img=2"
-                                alt="Profile"
-                                class="w-10 h-10 sm:w-16 sm:h-16 rounded-full object-cover"
-                            >
+                            @if(!empty($pengurus['photo']) && file_exists(public_path($pengurus['photo'])))
+                                <img
+                                    src="{{ asset($pengurus['photo']) }}"
+                                    alt="Profile"
+                                    class="w-10 h-10 sm:w-16 sm:h-16 rounded-full object-cover shrink-0"
+                                >
+                            @else
+                                <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-slate-200 text-slate-800 font-bold text-lg sm:text-2xl flex items-center justify-center uppercase font-title shrink-0">
+                                    {{ substr($pengurus['nama'] ?? '?', 0, 1) }}
+                                </div>
+                            @endif
                         <!-- Info -->
                             <div class="flex flex-col opacity-75">
 

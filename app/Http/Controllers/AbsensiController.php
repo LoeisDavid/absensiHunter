@@ -37,6 +37,12 @@ class AbsensiController extends Controller
             // 1. Ambil semua absensi by role
             $absensiList = $absensiModel->getAllByRole($role);
 
+            // Filter agar hanya menyertakan data hari ini saja
+            $today = now()->format('Y-m-d');
+            $absensiList = array_values(array_filter($absensiList, function ($absen) use ($today) {
+                return $absen['tanggal'] === $today;
+            }));
+
             // 2. Kumpulkan unique anggota_id
             $ids = array_unique(array_filter(array_column($absensiList, 'anggota_id')));
 
@@ -47,6 +53,7 @@ class AbsensiController extends Controller
             return array_map(function ($absen) use ($anggotaMap) {
                 $anggota = $anggotaMap[$absen['anggota_id']] ?? [];
                 return [
+                    'id'            => $anggota['id']      ?? 0,
                     'nama'          => $anggota['nama']    ?? '-',
                     'nis'           => $anggota['nis']     ?? '-',
                     'divisi'        => $anggota['divisi']  ?? '-',
@@ -54,6 +61,7 @@ class AbsensiController extends Controller
                     'tanggal'       => $absen['tanggal'],
                     'waktu_datang'  => $absen['waktu_datang'] ?: '-',
                     'waktu_pulang'  => $absen['waktu_pulang'] ?: '-',
+                    'photo'         => $anggota['photo']   ?? null,
                 ];
             }, $absensiList);
 

@@ -37,7 +37,8 @@
                             <h2 class="text-3xl font-bold tracking-tight">Tambah jadwal</h2>
                         </div>
 
-                        <form action="#" method="POST" class="flex flex-col gap-8">
+                        <form action="{{ route('jadwal.store') }}" method="POST" class="flex flex-col gap-8">
+                            @csrf
                             <div class="flex flex-col gap-3">
                                 <label class="font-bold text-lg" for="activity">Activity</label>
                                 <input type="text" id="activity" placeholder="Contoh: Kelas Coding" 
@@ -102,30 +103,42 @@
                 </tr>
             </thead>
             <tbody class="text-body-text text-lg font-medium">
+                @forelse ($schedules as $row)
                 <tr class="border-t border-gray-100">
-                    <td class="px-6 py-5">06 Juni 2026</td>
-                    <td class="px-6 py-5">Kelas coding Hunter</td>
-                    <td class="px-6 py-5">10</td>
-                    <td class="px-6 py-5">Panitia</td>
-                    <td class="px-6 py-5">Berlangsung</td>
                     <td class="px-6 py-5">
-                        <a href="{{ route('jadwal.show') }}" class="inline-block px-8 py-2 bg-graphite/75 text-white rounded-xl font-bold text-lg shadow-sm transition">
-                            Detail
-                        </a>
+                        {{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('d F Y') }}
+                    </td>
+                    <td class="px-6 py-5">{{ $row['kegiatan'] }}</td>
+                    <td class="px-6 py-5">{{ $row['total_hadir'] }}</td>
+                    <td class="px-6 py-5 capitalize">{{ $row['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }}</td>
+                    <td class="px-6 py-5">
+                        @if ($row['status'] === 'Berlangsung')
+                            <span class="text-blue-600 font-bold">Berlangsung</span>
+                        @elseif ($row['status'] === 'Selesai')
+                            <span class="text-[#2DA635] font-bold">Selesai</span>
+                        @else
+                            <span class="text-gray-400 font-bold">Segera</span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-5">
+                        @if ($row['status'] === 'Segera')
+                            <button disabled class="px-8 py-2 border-2 border-gray-200 text-gray-300 rounded-xl font-bold text-lg bg-white cursor-not-allowed">
+                                Detail
+                            </button>
+                        @else
+                            <a href="{{ route('jadwal.show', $row['id']) }}" class="inline-block px-8 py-2 bg-graphite/75 text-white rounded-xl font-bold text-lg shadow-sm transition hover:bg-graphite">
+                                Detail
+                            </a>
+                        @endif
                     </td>
                 </tr>
-                <tr class="border-t border-gray-100">
-                    <td class="px-6 py-5">08 Juni 2026</td>
-                    <td class="px-6 py-5">Jam Kantor</td>
-                    <td class="px-6 py-5">0</td>
-                    <td class="px-6 py-5">Panitia</td>
-                    <td class="px-6 py-5">Segera</td>
-                    <td class="px-6 py-5">
-                        <a href="#" disabled class="px-8 py-2 border-2 border-gray-200 text-gray-300 rounded-xl font-bold text-lg bg-white cursor-not-allowed">
-                            Detail
-                        </a>
+                @empty
+                <tr>
+                    <td colspan="6" class="px-6 py-5 text-center text-gray-500 font-medium">
+                        Belum ada jadwal terdaftar.
                     </td>
                 </tr>
+                @endforelse
             </tbody>
         </table>
 

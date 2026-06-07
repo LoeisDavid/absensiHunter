@@ -74,11 +74,17 @@
                 <div class="flex items-center gap-4">
 
                     <!-- Avatar -->
-                    <img
-                        src="https://i.pravatar.cc/150?img=12"
-                        alt="Avatar"
-                        class="w-12 h-12 rounded-full object-cover"
-                    >
+                    @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                        <img
+                            src="{{ asset($row['photo']) }}"
+                            alt="Avatar"
+                            class="w-12 h-12 rounded-full object-cover shrink-0"
+                        >
+                    @else
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                            {{ substr($row['nama'] ?? '?', 0, 1) }}
+                        </div>
+                    @endif
 
                     <!-- Info -->
                     <div>
@@ -149,10 +155,17 @@
                 <div class="flex items-center gap-3">
 
                     <!-- Avatar -->
-                    <img
-                        src="https://i.pravatar.cc/150?img=12"
-                        class="w-12 h-12 rounded-full object-cover"
-                    >
+                    @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                        <img
+                            src="{{ asset($row['photo']) }}"
+                            alt="Avatar"
+                            class="w-12 h-12 rounded-full object-cover shrink-0"
+                        >
+                    @else
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                            {{ substr($row['nama'] ?? '?', 0, 1) }}
+                        </div>
+                    @endif
 
                     <!-- Info -->
                     <div>

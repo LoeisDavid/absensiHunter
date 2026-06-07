@@ -55,7 +55,13 @@
     <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between border border-gray-100">
         <!-- Profile Info -->
         <div class="flex items-center gap-6">
-            <img src="https://i.pravatar.cc/150?u={{ $anggota['nis'] }}" alt="Profile" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover shadow-sm">
+            @if(!empty($anggota['photo']) && file_exists(public_path($anggota['photo'])))
+                <img src="{{ asset($anggota['photo']) }}" alt="Profile" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover shadow-sm shrink-0">
+            @else
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-slate-200 text-slate-800 font-bold text-4xl flex items-center justify-center uppercase font-title shrink-0 shadow-sm">
+                    {{ substr($anggota['nama'] ?? '?', 0, 1) }}
+                </div>
+            @endif
             <div class="font-body text-body-text">
                 <h2 class="text-2xl sm:text-3xl font-bold font-title">{{ $anggota['nama'] }}</h2>
                 <div class="grid grid-cols-2 gap-x-4 gap-y-1 mt-2 text-sm sm:text-base text-gray-600">
