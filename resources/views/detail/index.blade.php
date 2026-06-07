@@ -32,18 +32,31 @@
         <div class="col-span-12 md:col-span-4 lg:col-span-3 no-print">
             <div class="md:sticky md:top-24 space-y-4">
 
-            <!-- Back Button -->
-            <a href="{{ route('dashboard') }}"
-                class="flex items-center justify-center gap-2 bg-[#363636] hover:bg-[#4d4d4d] transition text-white px-4 py-3 rounded-lg shadow font-semibold text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                <span>Back</span>
-            </a>
+            <!-- Back and Print Buttons (Flex row on tablet/mobile sm, stacked on desktop md) -->
+            <div class="flex flex-col sm:flex-row md:flex-col gap-3">
+                <!-- Back Button -->
+                <a href="{{ route('dashboard') }}"
+                    class="flex-1 flex items-center justify-center gap-2 bg-[#363636] hover:bg-[#4d4d4d] transition text-white px-4 py-3 rounded-lg shadow font-semibold text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Back</span>
+                </a>
+
+                <!-- Cetak / PDF Button -->
+                <a href="{{ route('detail.print', ['month' => $selectedMonth, 'role' => $selectedRole]) }}" target="_blank"
+                    class="flex-1 flex items-center justify-center gap-2 bg-[#D91E2E] text-white px-4 py-3 rounded-lg shadow font-semibold text-sm hover:bg-[#b51825] transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <span>Cetak / PDF</span>
+                </a>
+            </div>
 
             <!-- Filter Form -->
-            <div class="bg-white rounded-xl shadow-sm p-4 space-y-4 border border-gray-150 font-title">
-                <form method="GET" action="{{ route('detail.index') }}" class="space-y-4">
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-150 font-title">
+                <form method="GET" action="{{ route('detail.index') }}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
                     <!-- Month Filter -->
                     <div class="flex flex-col gap-1.5">
                         <label for="filter_month" class="font-bold text-xs text-gray-700">Pilih Bulan</label>
@@ -70,25 +83,6 @@
                     </div>
                 </form>
             </div>
-
-            <!-- View PDF -->
-            <a href="#" onclick="window.print(); return false;"
-                class="flex items-center justify-center gap-2 bg-[#D91E2E] text-white px-4 py-3 rounded-lg shadow font-semibold text-sm hover:bg-[#b51825] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                <span>View PDF</span>
-            </a>
-
-            <!-- Download PDF -->
-            <a href="#" onclick="window.print(); return false;"
-                class="flex items-center justify-center gap-2 bg-[#D91E2E] text-white px-4 py-3 rounded-lg shadow font-semibold text-sm hover:bg-[#b51825] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                <span>Download PDF</span>
-            </a>
             </div>
         </div>
         <!-- end Sidebar PDF -->

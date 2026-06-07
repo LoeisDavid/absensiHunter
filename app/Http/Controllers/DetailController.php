@@ -9,11 +9,8 @@ use Illuminate\Http\Request;
 
 class DetailController extends Controller
 {
-    public function index(Request $request)
+    private function getDetailData($selectedMonth, $selectedRole)
     {
-        $selectedMonth = $request->query('month', date('Y-m'));
-        $selectedRole = $request->query('role', 'all');
-
         $anggotaModel = new AnggotaModel();
         $absensiModel = new AbsensiModel();
         $jadwalModel = new JadwalModel();
@@ -118,6 +115,26 @@ class DetailController extends Controller
             ];
         }
 
+        return [$pertemuanList, $summary];
+    }
+
+    public function index(Request $request)
+    {
+        $selectedMonth = $request->query('month', date('Y-m'));
+        $selectedRole = $request->query('role', 'all');
+
+        list($pertemuanList, $summary) = $this->getDetailData($selectedMonth, $selectedRole);
+
         return view('detail.index', compact('selectedMonth', 'selectedRole', 'pertemuanList', 'summary'));
+    }
+
+    public function print(Request $request)
+    {
+        $selectedMonth = $request->query('month', date('Y-m'));
+        $selectedRole = $request->query('role', 'all');
+
+        list($pertemuanList, $summary) = $this->getDetailData($selectedMonth, $selectedRole);
+
+        return view('detail.print', compact('selectedMonth', 'selectedRole', 'pertemuanList', 'summary'));
     }
 }
