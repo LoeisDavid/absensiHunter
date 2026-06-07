@@ -9,7 +9,7 @@
 
             <div class="flex items-center gap-3 sm:gap-6">
                 <!-- Title -->
-                <h1 class="text-xl sm:text-2xl font-bold text-body-text px-6">
+                <h1 class="text-xl sm:text-2xl font-bold text-body-text px-2 sm:px-6">
                     Tabel Jadwal
                 </h1>
             </div>
@@ -141,32 +141,6 @@
                 @endforelse
             </tbody>
         </table>
-
-        <div class="flex items-center gap-2 mt-4 mb-8 font-bold text-lg select-none">
-            <a href="#" class="w-9 h-9 flex items-center justify-center ">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-            </a>
-
-            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 text-gray-700 transition">
-                1
-            </a>
-
-            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-graphite/75 text-white  transition">
-                2
-            </a>
-
-            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-graphite/75 text-white  transition">
-                3
-            </a>
-
-            <a href="#" class="w-9 h-9 flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-            </a>
-        </div>
     </div>
 
     <!-- Mobile Card -->
@@ -216,4 +190,51 @@
         @endforelse
     </div>
     <!-- end Mobile Card -->
+
+    @if ($schedules->hasPages())
+        <div class="flex items-center justify-center gap-2 mt-6 mb-8 font-bold text-lg select-none font-title w-full">
+            {{-- Previous Page Link --}}
+            @if ($schedules->onFirstPage())
+                <span class="w-9 h-9 flex items-center justify-center text-gray-300 cursor-not-allowed">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </span>
+            @else
+                <a href="{{ $schedules->previousPageUrl() }}" class="w-9 h-9 flex items-center justify-center text-body-text hover:text-graphite transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </a>
+            @endif
+
+            {{-- Pagination Elements --}}
+            @foreach (range(1, $schedules->lastPage()) as $page)
+                @if ($page == $schedules->currentPage())
+                    <span class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 text-gray-700">
+                        {{ $page }}
+                    </span>
+                @else
+                    <a href="{{ $schedules->url($page) }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-graphite/75 text-white hover:bg-graphite transition">
+                        {{ $page }}
+                    </a>
+                @endif
+            @endforeach
+
+            {{-- Next Page Link --}}
+            @if ($schedules->hasMorePages())
+                <a href="{{ $schedules->nextPageUrl() }}" class="w-9 h-9 flex items-center justify-center text-body-text hover:text-graphite transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </a>
+            @else
+                <span class="w-9 h-9 flex items-center justify-center text-gray-300 cursor-not-allowed">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </span>
+            @endif
+        </div>
+    @endif
 @endsection

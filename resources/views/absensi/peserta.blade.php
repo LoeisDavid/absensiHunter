@@ -227,15 +227,21 @@
 
 
                 <!-- Waktu Keluar -->
-                <div class="flex justify-center">
-                    @if ($row['waktu_pulang'] === '-')
-                        <p class="block bg-[#0047C5]/75 border-3 border-[#0047C5] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
-                        -- : --
-                        </p>
+                <div class="flex items-center justify-between text-sm">
 
+                    <span class="font-semibold opacity-75">
+                        Waktu Keluar
+                    </span>
+
+                    @if ($row['waktu_pulang'] === '-')
+                        <p class="bg-[#0047C5]/75 border-2 border-[#0047C5]
+                            text-white font-bold px-5 py-1 rounded-md shadow-sm text-xs">
+                            -- : --
+                        </p>
                     @else
-                        <p class="block bg-[#D91E2E]/75 border-3 border-[#D91E2E] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
-                        {{ $row['waktu_pulang'] }}
+                        <p class="bg-[#D91E2E]/75 border-2 border-[#D91E2E]
+                            text-white font-bold px-5 py-1 rounded-md shadow-sm text-xs">
+                            {{ $row['waktu_pulang'] }}
                         </p>
                     @endif
 
