@@ -14,7 +14,7 @@
         <!-- end Header -->
 
         <!-- Main Content -->
-        <section class="rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-[#F5F5F5] inset-shadow-sm shadow-md">
+        <section class="rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-whitesmoke inset-shadow-sm shadow-md">
             @yield('content')
         </section>
         <!-- end Main Content -->
