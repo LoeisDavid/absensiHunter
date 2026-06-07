@@ -1,159 +1,282 @@
-@extends('layouts.app')
+@extends('layouts.app-detail')
 @section('title', 'Detail Absensi')
 
 @section('content')
-    <!-- Header -->
-    <div class="flex flex-col gap-6">
-        <!-- Back + Title -->
-        <div class="flex items-center justify-between font-title">
+    <style>
+    @media print {
+        header,
+        .no-print,
+        .col-span-2,
+        .md_col-span-4 {
+            display: none !important;
+        }
+        .col-span-10,
+        .md_col-span-8 {
+            width: 100% !important;
+            grid-column: span 12 / span 12 !important;
+        }
+        body {
+            background: white !important;
+            color: black !important;
+        }
+        .bg-[#F5F5F5] {
+            background: transparent !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+    }
+    </style>
 
-            <div class="flex items-center gap-3 sm:gap-6">
-                <!-- Title -->
-                <h1 class="text-xl sm:text-2xl font-bold text-body-text px-6">
-                    Tabel Detail
-                </h1>
+    <div class="grid grid-cols-12 gap-4 sm:gap-8">
+        <!-- Sidebar PDF -->
+        <div class="col-span-12 md:col-span-4 lg:col-span-3 no-print">
+            <div class="md:sticky md:top-24 space-y-4">
+
+            <!-- Back Button -->
+            <a href="{{ route('dashboard') }}"
+                class="flex items-center justify-center gap-2 bg-[#363636] hover:bg-[#4d4d4d] transition text-white px-4 py-3 rounded-lg shadow font-semibold text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Back</span>
+            </a>
+
+            <!-- Filter Form -->
+            <div class="bg-white rounded-xl shadow-sm p-4 space-y-4 border border-gray-150 font-title">
+                <form method="GET" action="{{ route('detail.index') }}" class="space-y-4">
+                    <!-- Month Filter -->
+                    <div class="flex flex-col gap-1.5">
+                        <label for="filter_month" class="font-bold text-xs text-gray-700">Pilih Bulan</label>
+                        <input type="month" name="month" id="filter_month" value="{{ $selectedMonth }}" onchange="this.form.submit()"
+                            class="w-full px-3 py-2 rounded-lg border-2 border-black focus:outline-none bg-whitesmoke text-xs font-semibold">
+                    </div>
+
+                    <!-- Role Filter -->
+                    <div class="flex flex-col gap-1.5">
+                        <label for="filter_role" class="font-bold text-xs text-gray-700">Peran (Role)</label>
+                        <div class="relative">
+                            <select name="role" id="filter_role" onchange="this.form.submit()"
+                                class="w-full px-3 py-2 rounded-lg border-2 border-black bg-whitesmoke text-xs font-semibold appearance-none cursor-pointer outline-none">
+                                <option value="all" {{ $selectedRole === 'all' ? 'selected' : '' }}>Semua</option>
+                                <option value="peserta" {{ $selectedRole === 'peserta' ? 'selected' : '' }}>Peserta</option>
+                                <option value="pengurus" {{ $selectedRole === 'pengurus' ? 'selected' : '' }}>Panitia</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <svg class="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
 
-            <!-- Button -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                <!-- Fillter -->
-                <div class="relative inline-block font-title">
-                    <select name="filter_tahun" 
-                        class="appearance-none pr-12 pl-6 py-2 border-2 border-body-text rounded-xl bg-white text-body-text font-bold text-lg cursor-pointer outline-none transition-colors hover:bg-gray-50">
-                        <option value="semua">Semua</option>
-                        <option value="2026">2026</option>
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                    </select>
+            <!-- View PDF -->
+            <a href="#" onclick="window.print(); return false;"
+                class="flex items-center justify-center gap-2 bg-[#D91E2E] text-white px-4 py-3 rounded-lg shadow font-semibold text-sm hover:bg-[#b51825] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <span>View PDF</span>
+            </a>
 
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                        <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
+            <!-- Download PDF -->
+            <a href="#" onclick="window.print(); return false;"
+                class="flex items-center justify-center gap-2 bg-[#D91E2E] text-white px-4 py-3 rounded-lg shadow font-semibold text-sm hover:bg-[#b51825] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>Download PDF</span>
+            </a>
+            </div>
+        </div>
+        <!-- end Sidebar PDF -->
+
+        <!-- Content -->
+        <div class="col-span-12 md:col-span-8 lg:col-span-9">
+
+            <!-- Card Abu -->
+            <div class="bg-[#F5F5F5] rounded-2xl shadow-md p-4 sm:p-8 space-y-6 sm:space-y-10">
+
+                @forelse ($pertemuanList as $pertemuan)
+                <!-- Card Tanggal -->
+                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-10">
+
+                    <div class="text-center mb-6 sm:mb-10">
+                        <h2 class="text-lg sm:text-2xl font-title font-bold text-body-text px-2">
+                            {{ \Carbon\Carbon::parse($pertemuan['tanggal'])->translatedFormat('l, d F Y') }}
+                            <br class="sm:hidden">
+                            <span class="text-sm sm:text-lg text-gray-500 font-semibold">
+                                - {{ $pertemuan['kegiatan'] }} ({{ $pertemuan['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }})
+                            </span>
+                        </h2>
                     </div>
+
+                    <!-- Desktop Table -->
+                    <div class="hidden lg:block overflow-x-auto">
+                        <table class="w-full font-title">
+                            <thead>
+                                <tr class="bg-[#D9D9D9] text-white">
+                                    <th class="px-6 py-5 text-left">Nama</th>
+                                    <th class="px-6 py-5 text-center">NIS</th>
+                                    <th class="px-6 py-5 text-center">Status</th>
+                                    <th class="px-6 py-5 text-center">Jam hadir</th>
+                                    <th class="px-6 py-5 text-center">Jam pulang</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @forelse ($pertemuan['attendees'] as $row)
+                                <tr class="bg-white">
+                                    <td class="px-6 py-5">
+                                        {{ $row['nama'] }}
+                                    </td>
+
+                                    <td class="px-6 py-5 text-center font-mono">
+                                        {{ $row['nis'] }}
+                                    </td>
+
+                                    <td class="px-6 py-5 text-center">
+                                        @if ($row['status'] === 'Hadir')
+                                            <span class="font-semibold text-[#2DA635]">
+                                                Hadir
+                                            </span>
+                                        @else
+                                            <span class="font-semibold text-[#D91E2E]">
+                                                Tidak Hadir
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <td class="px-6 py-5 text-center">
+                                        {{ $row['waktu_datang'] }}
+                                    </td>
+
+                                    <td class="px-6 py-5 text-center">
+                                        {{ $row['waktu_pulang'] }}
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr class="bg-white">
+                                    <td colspan="5" class="px-6 py-5 text-center text-gray-500 font-medium">
+                                        Tidak ada data anggota.
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile List View -->
+                    <div class="lg:hidden space-y-3">
+                        @forelse ($pertemuan['attendees'] as $row)
+                        <div class="bg-slate-50 rounded-xl p-4 border border-gray-150 space-y-3 font-title">
+                            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+                                <span class="font-bold text-sm text-gray-900">{{ $row['nama'] }}</span>
+                                <span class="text-xs font-bold px-2.5 py-0.5 rounded-md
+                                    {{ $row['status'] === 'Hadir' ? 'bg-[#2DA635]/15 text-[#2DA635]' : 'bg-[#D91E2E]/15 text-[#D91E2E]' }}">
+                                    {{ $row['status'] }}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-xs font-body text-gray-600">
+                                <div>
+                                    <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">NIS</p>
+                                    <p class="font-mono mt-0.5 text-gray-800 font-semibold">{{ $row['nis'] }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Jam Hadir</p>
+                                    <p class="mt-0.5 text-gray-800 font-semibold">{{ $row['waktu_datang'] }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Jam Pulang</p>
+                                    <p class="mt-0.5 text-gray-800 font-semibold">{{ $row['waktu_pulang'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <p class="text-center text-xs text-gray-500 py-3">Tidak ada data anggota.</p>
+                        @endforelse
+                    </div>
+
                 </div>
-                <!-- end Fillter -->
-                
-                <button onclick="addDetail.showModal()"
-                    class="bg-flagred cursor-pointer transition text-white px-4 py-1 sm:px-6 sm:py-2 rounded-xl shadow-sm font-bold text-base sm:text-lg flex items-center gap-2"
-                >
-                    <span class="hidden sm:block">Add</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 shrink-0">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m-7-7h14" />
-                    </svg>
-                </button>
+                @empty
+                <div class="bg-white rounded-xl shadow-sm p-6 sm:p-10 text-center font-title text-gray-500 font-semibold text-base sm:text-lg">
+                    Tidak ada pertemuan/jadwal pada bulan ini.
+                </div>
+                @endforelse
 
-                <dialog id="addDetail" class="m-auto rounded-2xl border-none p-0 shadow-2xl backdrop:bg-black/50 open:animate-in open:fade-in open:zoom-in duration-300">
-                    <div class="w-135 max-w-full bg-white p-12 flex flex-col relative">
-                        
-                        <div class="flex items-center gap-3 mb-10">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 shrink-0">
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m-7-7h14" />
-                            </svg>
-                            <h2 class="text-3xl font-bold tracking-tight">Tambah Detail</h2>
-                        </div>
+                <!-- Card Total Kehadiran -->
+                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-10">
 
-                        <form action="#" method="POST" class="flex flex-col gap-8">
-                            <div class="flex flex-col gap-3">
-                                <label class="font-bold text-lg" for="tahun">Tahun</label>
-                                <input type="text" id="tahun" placeholder="Contoh: 2023" 
-                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black focus:outline-none bg-whitesmoke text-base font-medium">
-                            </div>
-
-                            <div class="flex flex-col gap-3">
-                                <label class="font-bold text-lg" for="bulan">Bulan</label>
-                                <input type="text" id="bulan" placeholder="Contoh: Januari" 
-                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black focus:outline-none bg-whitesmoke text-base font-medium">
-                            </div>
-
-                            <div class="mt-8 flex justify-end gap-3">
-                                <button type="button" onclick="addDetail.close()"
-                                    class="px-6 py-3 bg-body-text/75 text-white rounded-2xl font-bold text-xl cursor-pointer shadow-md">
-                                    Cancel
-                                </button>
-                                <button type="submit"
-                                    class="px-6 py-3 bg-flagred text-white rounded-2xl font-bold text-xl cursor-pointer shadow-md">
-                                    Add
-                                </button>
-                            </div>
-                        </form>
+                    <div class="text-center mb-6 sm:mb-10">
+                        <h2 class="text-lg sm:text-2xl font-title font-bold text-body-text px-2">
+                            Tabel Total Kehadiran ({{ \Carbon\Carbon::parse($selectedMonth)->translatedFormat('F Y') }})
+                        </h2>
                     </div>
-                </dialog>
-            </div>
-            <!-- end Button -->
-        </div>
-    </div>
-    <!-- end Header -->
 
-    <!-- Table -->
-    <div class="w-full mt-8 bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm font-title flex flex-col items-center">
-        <table class="w-full border-collapse text-center mt-4">
-            <thead>
-                <tr class="text-gray-900">
-                    <th class="font-bold text-xl px-6 py-6">Tahun</th>
-                    <th class="font-bold text-xl px-6 py-6">Bulan</th>
-                    <th class="font-bold text-xl px-6 py-6">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="text-body-text text-lg font-medium">
-                <tr class="border-t border-gray-100">
-                    <td class="px-6 py-5">2026</td>
-                    <td class="px-6 py-5">Mei</td>
-                    <td class="px-6 py-5">
-                        <div class="flex items-center justify-center gap-2">
-                            <a href="#" title="Detail" 
-                                class="w-9 h-9 flex items-center justify-center rounded-xl bg-graphite/75 text-white transition-colors shadow-xs">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                </svg>
-                            </a>
+                    <!-- Desktop Table -->
+                    <div class="hidden lg:block overflow-x-auto">
+                        <table class="w-full font-title">
+                            <thead>
+                                <tr class="bg-[#D9D9D9] text-white">
+                                    <th class="px-6 py-5 text-left">Nama</th>
+                                    <th class="px-6 py-5 text-center">Hadir</th>
+                                    <th class="px-6 py-5 text-center">Tidak Hadir</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @forelse ($summary as $row)
+                                <tr class="bg-white">
+                                    <td class="px-6 py-5">
+                                        {{ $row['nama'] }}
+                                    </td>
 
-                            <a href="#" title="Lihat PDF" 
-                                class="w-9 h-9 flex items-center justify-center rounded-xl bg-flagred/75 text-white transition-colors shadow-xs">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                            </a>
+                                    <td class="px-6 py-5 text-center">
+                                        {{ $row['hadir'] }}
+                                    </td>
 
-                            <a href="#" title="Download PDF" 
-                                class="w-9 h-9 flex items-center justify-center rounded-xl bg-flagred/75 text-white transition-colors shadow-xs">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                </svg>
-                            </a>
+                                    <td class="px-6 py-5 text-center">
+                                        {{ $row['tidak_hadir'] }}
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr class="bg-white">
+                                    <td colspan="3" class="px-6 py-5 text-center text-gray-500 font-medium">
+                                        Tidak ada data summary.
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile List View -->
+                    <div class="lg:hidden space-y-3">
+                        @forelse ($summary as $row)
+                        <div class="bg-slate-50 rounded-xl p-4 border border-gray-150 flex items-center justify-between font-title">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-900">{{ $row['nama'] }}</h4>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs font-bold">
+                                <span class="bg-green-50 text-green-700 px-2.5 py-1 rounded-lg">
+                                    Hadir: {{ $row['hadir'] }}
+                                </span>
+                                <span class="bg-red-50 text-red-700 px-2.5 py-1 rounded-lg">
+                                    Absen: {{ $row['tidak_hadir'] }}
+                                </span>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        @empty
+                        <p class="text-center text-xs text-gray-500 py-3">Tidak ada data summary.</p>
+                        @endforelse
+                    </div>
 
-        <div class="flex items-center gap-2 mt-4 mb-8 font-bold text-lg select-none">
-            <a href="#" class="w-9 h-9 flex items-center justify-center ">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-            </a>
+                </div>
 
-            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 text-gray-700 transition">
-                1
-            </a>
+            </div>
+            <!-- End Card Abu -->
 
-            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-graphite/75 text-white  transition">
-                2
-            </a>
-
-            <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-graphite/75 text-white  transition">
-                3
-            </a>
-
-            <a href="#" class="w-9 h-9 flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-            </a>
         </div>
+
     </div>
 @endsection

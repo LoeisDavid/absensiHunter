@@ -40,6 +40,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     
     // Jadwal
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
+    Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('jadwal.store');
+    Route::get('/jadwal/{id}', [JadwalController::class, 'show'])->name('jadwal.show');
 
 
     // Anggota

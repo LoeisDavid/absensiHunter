@@ -68,6 +68,75 @@ class GoogleSheetsService
         });
     }
 
+    private function colLetterToIndex(string $letter): int
+    {
+        $letter = strtoupper($letter);
+        $index = 0;
+        $len = strlen($letter);
+        for ($i = 0; $i < $len; $i++) {
+            $index = $index * 26 + (ord($letter[$i]) - 64);
+        }
+        return $index - 1;
+    }
+
+    private function parseRange(string $rangeStr): array
+    {
+        $sheet = $rangeStr;
+        $startCol = 'A';
+        $endCol = 'Z';
+        $startRow = 1;
+        $endRow = null;
+
+        if (strpos($rangeStr, '!') !== false) {
+            list($sheet, $cellPart) = explode('!', $rangeStr, 2);
+            if (strpos($cellPart, ':') !== false) {
+                list($start, $end) = explode(':', $cellPart, 2);
+                
+                preg_match('/([A-Z]+)([0-9]*)/i', $start, $startMatches);
+                $startCol = $startMatches[1] ?? 'A';
+                $startRow = !empty($startMatches[2]) ? (int)$startMatches[2] : 1;
+
+                preg_match('/([A-Z]+)([0-9]*)/i', $end, $endMatches);
+                $endCol = $endMatches[1] ?? 'Z';
+                $endRow = !empty($endMatches[2]) ? (int)$endMatches[2] : null;
+            } else {
+                preg_match('/([A-Z]+)([0-9]*)/i', $cellPart, $matches);
+                $startCol = $matches[1] ?? 'A';
+                $endCol = $startCol;
+                $startRow = !empty($matches[2]) ? (int)$matches[2] : 1;
+                $endRow = $startRow;
+            }
+        }
+
+        return [
+            'sheet' => $sheet,
+            'startCol' => $startCol,
+            'endCol' => $endCol,
+            'startRow' => $startRow,
+            'endRow' => $endRow,
+        ];
+    }
+
+    private function sliceRow(array $row, int $startIdx, int $endIdx): array
+    {
+        $sliced = [];
+        for ($i = $startIdx; $i <= $endIdx; $i++) {
+            $sliced[] = $row[$i] ?? '';
+        }
+        return $sliced;
+    }
+
+    public function preloadAllToSession(): void
+    {
+        $sheets = ['users', 'anggota', 'absensi', 'jadwal'];
+        $data = [];
+        session()->forget('sheets_data');
+        foreach ($sheets as $sheet) {
+            $data[$sheet] = $this->getRange("{$sheet}!A:Z");
+        }
+        session(['sheets_data' => $data]);
+    }
+
     /**
      * Ambil satu range.
      *
@@ -77,6 +146,27 @@ class GoogleSheetsService
      */
     public function getRange(string $range): array
     {
+        if (session()->has('sheets_data')) {
+            $parsed = $this->parseRange($range);
+            $sheet = $parsed['sheet'];
+            $sheetData = session("sheets_data.{$sheet}", []);
+            
+            $startColIdx = $this->colLetterToIndex($parsed['startCol']);
+            $endColIdx = $this->colLetterToIndex($parsed['endCol']);
+            $startRowIdx = $parsed['startRow'] - 1;
+            $endRowIdx = $parsed['endRow'] !== null ? $parsed['endRow'] - 1 : count($sheetData) - 1;
+
+            $result = [];
+            for ($r = $startRowIdx; $r <= $endRowIdx; $r++) {
+                if (isset($sheetData[$r])) {
+                    $result[] = $this->sliceRow($sheetData[$r], $startColIdx, $endColIdx);
+                } else {
+                    $result[] = array_fill(0, $endColIdx - $startColIdx + 1, '');
+                }
+            }
+            return $result;
+        }
+
         $token = $this->getAccessToken();
 
         $response = Http::timeout(15)
@@ -107,6 +197,14 @@ class GoogleSheetsService
      */
     public function batchGet(array $ranges): array
     {
+        if (session()->has('sheets_data')) {
+            $result = [];
+            foreach ($ranges as $range) {
+                $result[] = $this->getRange($range);
+            }
+            return $result;
+        }
+
         if (empty($ranges)) {
             return [];
         }
@@ -176,7 +274,15 @@ class GoogleSheetsService
                 'values' => [$values],
             ]);
 
-        return $response->successful();
+        if ($response->successful()) {
+            if (session()->has('sheets_data')) {
+                $sheetData = session("sheets_data.{$sheet}", []);
+                $sheetData[] = array_map('strval', $values);
+                session(["sheets_data.{$sheet}" => $sheetData]);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -192,7 +298,28 @@ class GoogleSheetsService
                 'values' => [$values],
             ]);
 
-        return $response->successful();
+        if ($response->successful()) {
+            if (session()->has('sheets_data')) {
+                $parsed = $this->parseRange($range);
+                $sheet = $parsed['sheet'];
+                $sheetData = session("sheets_data.{$sheet}", []);
+                
+                $startRowIdx = $parsed['startRow'] - 1;
+                $startColIdx = $this->colLetterToIndex($parsed['startCol']);
+
+                while (count($sheetData) <= $startRowIdx) {
+                    $sheetData[] = [];
+                }
+
+                foreach ($values as $offset => $val) {
+                    $colIdx = $startColIdx + $offset;
+                    $sheetData[$startRowIdx][$colIdx] = (string)$val;
+                }
+                session(["sheets_data.{$sheet}" => $sheetData]);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -204,6 +331,22 @@ class GoogleSheetsService
      */
     public function findRowByValue(string $sheet, string $col, string $value): int
     {
+        if (session()->has('sheets_data')) {
+            $sheetData = session("sheets_data.{$sheet}", []);
+            $colIdx = $this->colLetterToIndex($col);
+            foreach ($sheetData as $i => $row) {
+                if ($i === 0) {
+                    continue;
+                }
+
+                if (isset($row[$colIdx]) && (string) $row[$colIdx] === (string) $value) {
+                    return $i + 1;
+                }
+            }
+
+            return 0;
+        }
+
         $rows = $this->getRange("{$sheet}!{$col}:{$col}");
 
         foreach ($rows as $i => $row) {
@@ -224,6 +367,16 @@ class GoogleSheetsService
      */
     public function getRow(string $sheet, int $rowNum, string $endCol = 'G'): array
     {
+        if (session()->has('sheets_data')) {
+            $sheetData = session("sheets_data.{$sheet}", []);
+            $rowIndex = $rowNum - 1;
+            if (isset($sheetData[$rowIndex])) {
+                $endColIdx = $this->colLetterToIndex($endCol);
+                return $this->sliceRow($sheetData[$rowIndex], 0, $endColIdx);
+            }
+            return [];
+        }
+
         $rows = $this->getRange("{$sheet}!A{$rowNum}:{$endCol}{$rowNum}");
 
         return $rows[0] ?? [];
@@ -235,6 +388,11 @@ class GoogleSheetsService
      */
     public function getRowCount(string $sheet): int
     {
+        if (session()->has('sheets_data')) {
+            $sheetData = session("sheets_data.{$sheet}", []);
+            return max(0, count($sheetData) - 1);
+        }
+
         $rows = $this->getRange("{$sheet}!A:A");
 
         return max(0, count($rows) - 1);
@@ -245,6 +403,10 @@ class GoogleSheetsService
      */
     public function getNextId(string $sheet): int
     {
+        if (session()->has('sheets_data')) {
+            return $this->getRowCount($sheet) + 1;
+        }
+
         return $this->getRowCount($sheet) + 1;
     }
 

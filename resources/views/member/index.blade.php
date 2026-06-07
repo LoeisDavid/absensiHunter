@@ -77,56 +77,62 @@
 
         <!-- Body -->
         <div class="divide-y divide-gray-100">
-
+            @forelse ($members as $row)
             <!-- Row -->
-            <a href="{{ route('member.show') }}" class="block hover:bg-gray-100 transition">
+            <a href="{{ route('member.show', ['id' => $row['id']]) }}" class="block hover:bg-gray-100 transition">
             <div class="grid grid-cols-5 items-center py-5 font-body text-body-text/75">
 
                 <!-- Nama -->
                 <div class="flex items-center gap-4">
 
                     <!-- Avatar -->
-                    <img
-                        src="https://i.pravatar.cc/150?img=12"
-                        alt="Avatar"
-                        class="w-12 h-12 rounded-full object-cover"
-                    >
+                    @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                        <img
+                            src="{{ asset($row['photo']) }}"
+                            alt="Avatar"
+                            class="w-12 h-12 rounded-full object-cover shrink-0"
+                        >
+                    @else
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                            {{ substr($row['nama'] ?? '?', 0, 1) }}
+                        </div>
+                    @endif
 
                     <!-- Info -->
                     <div>
-
                         <h3 class="font-medium text-base">
-                            Muhammad Ibnu Dzaki
+                            {{ $row['nama'] }}
                         </h3>
-
                     </div>
 
                 </div>
 
-
                 <!-- NIS -->
-                <div class="text-base font-medium text-right">
-                    101.12345
+                <div class="text-base font-medium text-right font-mono">
+                    {{ $row['nis'] }}
                 </div>
-
 
                 <!-- Divisi -->
                 <div class="flex justify-center">
-                    tes
+                    {{ $row['divisi'] }}
                 </div>
-
 
                 <!-- Jabatan -->
                 <div class="flex justify-center">
-                    LOL
+                    {{ $row['jabatan'] }}
                 </div>
 
                 <!-- Status -->
-                <div class="flex justify-center">
-                    Panitia
+                <div class="flex justify-center capitalize">
+                    {{ $row['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }}
                 </div>
             </div>
             </a>
+            @empty
+            <div class="py-5 text-center text-gray-500 font-medium">
+                Tidak ada data anggota.
+            </div>
+            @endforelse
         </div>
     </div>
     <!-- end Table Wrapper -->

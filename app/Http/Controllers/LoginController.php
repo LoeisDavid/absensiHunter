@@ -39,6 +39,9 @@ class LoginController extends Controller
                 'role'  => $user['role'],
             ]]);
 
+            // Preload Google Sheets data ke session
+            app(\App\Services\GoogleSheetsService::class)->preloadAllToSession();
+
             return redirect()->route('dashboard');
 
         } catch (\Exception $e) {
@@ -49,6 +52,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $request->session()->forget('admin');
+        $request->session()->forget('sheets_data');
         return redirect()->route('login')->with('success', 'Berhasil logout.');
     }
 }

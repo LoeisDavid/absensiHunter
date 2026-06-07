@@ -20,9 +20,9 @@
         <!-- Title -->
         <div class="flex flex-col font-title text-body-text mt-4">
             <h1 class="text-xl sm:text-5xl font-bold">
-                Kelas Coding <span>(Peserta)</span>
+                {{ $jadwal['kegiatan'] }} <span>({{ $jadwal['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }})</span>
             </h1>
-            <span class="text-sm sm:text-lg mt-6">Kamis, 6 Mei 2026</span>
+            <span class="text-sm sm:text-lg mt-6">{{ \Carbon\Carbon::parse($jadwal['tanggal'])->translatedFormat('l, d F Y') }}</span>
         </div>
     </div>
     <!-- end Header -->
@@ -39,53 +39,54 @@
                 </tr>
             </thead>
             <tbody class="text-lg font-semibold font-body text-body-text/50">
-                
+                @forelse ($attendees as $row)
                 <tr class="border-t border-gray-50 hover:bg-gray-50/50 transition-colors">
                     <td class="px-6 py-4 pl-12">
                         <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full object-cover" alt="Avatar">
+                            @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                                <img src="{{ asset($row['photo']) }}" class="w-12 h-12 rounded-full object-cover shrink-0" alt="Avatar">
+                            @else
+                                <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                                    {{ substr($row['nama'] ?? '?', 0, 1) }}
+                                </div>
+                            @endif
                             <div>
-                                <p class="font-bold text-base">Muhammad Nailul Fadhil</p>
-                                <p class=" text-sm font-medium">Frontend Developer</p>
+                                <p class="font-bold text-base text-body-text">{{ $row['nama'] }}</p>
+                                <p class="text-sm font-medium text-gray-500">{{ $row['divisi'] }} - {{ $row['jabatan'] }}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-4 font-medium text-base">101.01.2001</td>
+                    <td class="px-6 py-4 font-medium text-base font-mono">{{ $row['nis'] }}</td>
                     <td class="px-6 py-4">
-                        <div class="w-32 py-2 bg-[#2DA635]/75 border-3 border-[#2DA635] text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
-                            09:00
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="w-32 py-2 bg-flagred/75 border-3 border-flagred text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
-                            17:00
-                        </div>
-                    </td>
-                </tr>
-
-                <tr class="border-t border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td class="px-6 py-4 pl-12">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/150?img=13" class="w-12 h-12 rounded-full object-cover" alt="Avatar">
-                            <div>
-                                <p class="font-bold text-base">Muhammad Nabil Junior</p>
-                                <p class=" text-sm font-medium">Frontend Developer</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 font-medium text-base">101.01.2001</td>
-                    <td class="px-6 py-4">
-                        <div class="w-32 py-2 bg-[#2DA635]/75 border-3 border-[#2DA635] text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
-                            09:00
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
+                        @if ($row['waktu_datang'] === '-- : --')
                         <div class="w-32 py-2 bg-[#0047C5]/75 border-3 border-[#0047C5] text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
                             -- : --
                         </div>
+                        @else
+                        <div class="w-32 py-2 bg-[#2DA635]/75 border-3 border-[#2DA635] text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
+                            {{ $row['waktu_datang'] }}
+                        </div>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4">
+                        @if ($row['waktu_pulang'] === '-- : --')
+                        <div class="w-32 py-2 bg-[#0047C5]/75 border-3 border-[#0047C5] text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
+                            -- : --
+                        </div>
+                        @else
+                        <div class="w-32 py-2 bg-flagred/75 border-3 border-flagred text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
+                            {{ $row['waktu_pulang'] }}
+                        </div>
+                        @endif
                     </td>
                 </tr>
-
+                @empty
+                <tr>
+                    <td colspan="4" class="px-6 py-4 text-center text-gray-500 font-medium">
+                        Tidak ada data anggota.
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

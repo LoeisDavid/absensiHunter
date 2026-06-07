@@ -40,7 +40,7 @@ class AnggotaModel
         return Cache::remember("anggota_id_{$id}", $this->cacheSeconds, function () use ($id) {
             $rowNum = $id + 1;
 
-            $row = $this->sheets->getRow($this->sheet, $rowNum, 'F');
+            $row = $this->sheets->getRow($this->sheet, $rowNum, 'G');
 
             if (empty($row)) {
                 return null;
@@ -66,7 +66,7 @@ class AnggotaModel
                 return null;
             }
 
-            $row = $this->sheets->getRow($this->sheet, $rowNum, 'F');
+            $row = $this->sheets->getRow($this->sheet, $rowNum, 'G');
 
             return $this->map($row);
         });
@@ -104,7 +104,7 @@ class AnggotaModel
 
         if (!empty($missedIds)) {
             $ranges = array_map(function ($id) {
-                return "{$this->sheet}!A" . ($id + 1) . ":F" . ($id + 1);
+                return "{$this->sheet}!A" . ($id + 1) . ":G" . ($id + 1);
             }, $missedIds);
 
             $rows = $this->sheets->batchGetRows($ranges);
@@ -138,7 +138,7 @@ class AnggotaModel
     public function getAll(): array
     {
         return Cache::remember("anggota_all", $this->cacheSeconds, function () {
-            $rows = $this->sheets->getAll($this->sheet, 'A:F');
+            $rows = $this->sheets->getAll($this->sheet, 'A:G');
 
             if (empty($rows)) {
                 return [];
@@ -205,6 +205,7 @@ class AnggotaModel
             'divisi'  => $row[3] ?? '',
             'jabatan' => $row[4] ?? '',
             'role'    => strtolower(trim($row[5] ?? 'peserta')),
+            'photo'   => !empty($row[6]) ? trim($row[6]) : null,
         ];
     }
 }
