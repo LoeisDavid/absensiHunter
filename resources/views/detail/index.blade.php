@@ -30,68 +30,75 @@
     <div class="grid grid-cols-12 gap-4 sm:gap-8">
         <!-- Sidebar PDF -->
         <div class="col-span-12 md:col-span-4 lg:col-span-3 no-print">
-            <div class="md:sticky md:top-24 space-y-4">
+            <div class="md:sticky md:top-24 bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm border border-gray-150 dark:border-white/10 p-5 space-y-6 font-title">
+                
+                <!-- Action Section -->
+                <div>
+                    <h3 class="font-bold text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">Aksi & Ekspor</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 md:flex md:flex-col gap-3 mt-3">
+                        <!-- Back Button -->
+                        <a href="{{ route('dashboard') }}"
+                            class="flex items-center justify-center gap-2 bg-gray-50 hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition text-gray-700 dark:text-white border border-gray-200 dark:border-white/10 px-4 py-3 rounded-xl shadow-xs font-bold text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            <span>Kembali</span>
+                        </a>
 
-            <!-- Back, Print, and Download Buttons -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 md:flex md:flex-col gap-3">
-                <!-- Back Button -->
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center justify-center gap-2 bg-[#363636] hover:bg-[#4d4d4d] transition text-white px-4 py-3 rounded-lg shadow font-semibold text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    <span>Back</span>
-                </a>
+                        <!-- Cetak / PDF Button -->
+                        <a href="{{ route('detail.print', ['month' => $selectedMonth, 'role' => $selectedRole]) }}" target="_blank"
+                            class="flex items-center justify-center gap-2 bg-flagred text-white px-4 py-3 rounded-xl shadow-md font-bold text-sm hover:bg-flagred/95 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <span>Cetak Laporan</span>
+                        </a>
 
-                <!-- Cetak / PDF Button -->
-                <a href="{{ route('detail.print', ['month' => $selectedMonth, 'role' => $selectedRole]) }}" target="_blank"
-                    class="flex items-center justify-center gap-2 bg-[#D91E2E] text-white px-4 py-3 rounded-lg shadow font-semibold text-sm hover:bg-[#b51825] transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <span>Cetak / PDF</span>
-                </a>
-
-                <!-- Download PDF Button -->
-                <a href="{{ route('detail.download', ['month' => $selectedMonth, 'role' => $selectedRole]) }}"
-                    class="flex items-center justify-center gap-2 bg-[#D91E2E] text-white px-4 py-3 rounded-lg shadow font-semibold text-sm hover:bg-[#b51825] transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    <span>Download PDF</span>
-                </a>
-            </div>
-
-            <!-- Filter Form -->
-            <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-xl shadow-sm p-4 border border-gray-150 dark:border-white/10 font-title">
-                <form method="GET" action="{{ route('detail.index') }}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
-                    <!-- Month Filter -->
-                    <div class="flex flex-col gap-1.5">
-                        <label for="filter_month" class="font-bold text-xs text-gray-700 dark:text-[#E0E0E0]">Pilih Bulan</label>
-                        <input type="month" name="month" id="filter_month" value="{{ $selectedMonth }}" onchange="this.form.submit()"
-                            class="w-full px-3 py-2 rounded-lg border-2 border-black dark:border-white/20 focus:outline-none bg-whitesmoke dark:bg-[#1A1A1A] dark:text-white text-xs font-semibold">
+                        <!-- Download PDF Button -->
+                        <a href="{{ route('detail.download', ['month' => $selectedMonth, 'role' => $selectedRole]) }}"
+                            class="flex items-center justify-center gap-2 border-2 border-flagred text-flagred hover:bg-flagred hover:text-white transition-all px-4 py-3 rounded-xl shadow-xs font-bold text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span>Unduh PDF</span>
+                        </a>
                     </div>
+                </div>
 
-                    <!-- Role Filter -->
-                    <div class="flex flex-col gap-1.5">
-                        <label for="filter_role" class="font-bold text-xs text-gray-700 dark:text-[#E0E0E0]">Peran (Role)</label>
-                        <div class="relative">
-                            <select name="role" id="filter_role" onchange="this.form.submit()"
-                                class="w-full px-3 py-2 rounded-lg border-2 border-black dark:border-white/20 bg-whitesmoke dark:bg-[#1A1A1A] dark:text-white text-xs font-semibold appearance-none cursor-pointer outline-none">
-                                <option value="all" {{ $selectedRole === 'all' ? 'selected' : '' }}>Semua</option>
-                                <option value="peserta" {{ $selectedRole === 'peserta' ? 'selected' : '' }}>Peserta</option>
-                                <option value="pengurus" {{ $selectedRole === 'pengurus' ? 'selected' : '' }}>Panitia</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                <svg class="w-3 h-3 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
-                                </svg>
+                <div class="h-px bg-gray-100 dark:bg-white/5"></div>
+
+                <!-- Filter Section -->
+                <div>
+                    <h3 class="font-bold text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Filter Laporan</h3>
+                    <form method="GET" action="{{ route('detail.index') }}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
+                        <!-- Month Filter -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="filter_month" class="font-bold text-xs text-gray-600 dark:text-gray-400">Pilih Bulan</label>
+                            <input type="month" name="month" id="filter_month" value="{{ $selectedMonth }}" onchange="this.form.submit()"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-white/10 focus:border-black dark:focus:border-white focus:outline-none bg-whitesmoke dark:bg-[#1A1A1A] dark:text-white text-xs font-semibold transition">
+                        </div>
+
+                        <!-- Role Filter -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="filter_role" class="font-bold text-xs text-gray-600 dark:text-gray-400">Peran (Role)</label>
+                            <div class="relative">
+                                <select name="role" id="filter_role" onchange="this.form.submit()"
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-white/10 focus:border-black dark:focus:border-white bg-whitesmoke dark:bg-[#1A1A1A] dark:text-white text-xs font-semibold appearance-none cursor-pointer outline-none transition">
+                                    <option value="all" {{ $selectedRole === 'all' ? 'selected' : '' }}>Semua</option>
+                                    <option value="peserta" {{ $selectedRole === 'peserta' ? 'selected' : '' }}>Peserta</option>
+                                    <option value="pengurus" {{ $selectedRole === 'pengurus' ? 'selected' : '' }}>Panitia</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                                    <svg class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+
             </div>
         </div>
         <!-- end Sidebar PDF -->
