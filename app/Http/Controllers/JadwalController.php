@@ -10,4 +10,9 @@ class JadwalController extends Controller
     {
         return view('jadwal.index');
     }
+
+    public function show()
+    {
+        return view('jadwal.show');
+    }
 }
