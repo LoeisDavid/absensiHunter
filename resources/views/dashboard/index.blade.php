@@ -7,8 +7,20 @@
             <!-- Greeting -->
             <div class="h-full flex flex-col justify-center font-title text-body-text py-2 sm:py-5">
 
+                @php
+                    $hour = now()->hour;
+                    if ($hour >= 5 && $hour < 12) {
+                        $greeting = 'GOOD MORNING';
+                    } elseif ($hour >= 12 && $hour < 17) {
+                        $greeting = 'GOOD AFTERNOON';
+                    } elseif ($hour >= 17 && $hour < 19) {
+                        $greeting = 'GOOD EVENING';
+                    } else {
+                        $greeting = 'GOOD NIGHT';
+                    }
+                @endphp
                 <h1 class="text-2xl sm:text-4xl leading-tight font-bold">
-                    GOOD MORNING,
+                    {{ $greeting }},
                     <br class="hidden sm:block">
                     ADMIN
                 </h1>
