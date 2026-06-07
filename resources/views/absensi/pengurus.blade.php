@@ -7,7 +7,7 @@
         <div class="flex items-center gap-3 sm:gap-6 font-title">
 
             <!-- Title -->
-            <h1 class="text-xl sm:text-2xl font-bold text-body-text px-6">
+            <h1 class="text-xl sm:text-2xl font-bold text-body-text dark:text-white px-6">
                 Data Panitia
             </h1>
 
@@ -134,7 +134,7 @@
                 </div>
             </div>
             @empty
-            <div class="grid grid-cols-4 items-center py-5 font-body text-body-text">
+            <div class="grid grid-cols-4 items-center py-5 font-body text-body-text dark:text-[#E0E0E0]">
                 Tidak ada data
             </div>
             @endforelse
@@ -254,7 +254,7 @@
 
         @empty
 
-        <div class="bg-white rounded-2xl shadow-sm p-6 text-center font-body text-body-text">
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-6 text-center font-body text-body-text dark:text-gray-400">
             Tidak ada data
         </div>
 

@@ -184,7 +184,7 @@
             @endif
         </div>
         @empty
-        <div class="bg-white rounded-2xl shadow-sm p-6 text-center font-body text-body-text">
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-6 text-center font-body text-body-text dark:text-gray-400">
             Belum ada jadwal terdaftar.
         </div>
         @endforelse
@@ -201,7 +201,7 @@
                     </svg>
                 </span>
             @else
-                <a href="{{ $schedules->previousPageUrl() }}" class="w-9 h-9 flex items-center justify-center text-body-text hover:text-graphite transition">
+                <a href="{{ $schedules->previousPageUrl() }}" class="w-9 h-9 flex items-center justify-center text-body-text dark:text-[#E0E0E0] hover:text-graphite dark:hover:text-white transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
@@ -223,7 +223,7 @@
 
             {{-- Next Page Link --}}
             @if ($schedules->hasMorePages())
-                <a href="{{ $schedules->nextPageUrl() }}" class="w-9 h-9 flex items-center justify-center text-body-text hover:text-graphite transition">
+                <a href="{{ $schedules->nextPageUrl() }}" class="w-9 h-9 flex items-center justify-center text-body-text dark:text-[#E0E0E0] hover:text-graphite dark:hover:text-white transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>

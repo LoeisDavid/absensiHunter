@@ -8,7 +8,7 @@
         <div class="flex items-center gap-3 sm:gap-6 font-title">
 
             <!-- Title -->
-            <h1 class="text-xl sm:text-2xl font-bold text-body-text px-6">
+            <h1 class="text-xl sm:text-2xl font-bold text-body-text dark:text-white px-6">
                 Anggota
             </h1>
 
@@ -180,7 +180,7 @@
             </div>
         </a>
         @empty
-        <div class="bg-white rounded-2xl shadow-sm p-6 text-center font-body text-body-text">
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-6 text-center font-body text-body-text dark:text-gray-400">
             Tidak ada data anggota.
         </div>
         @endforelse

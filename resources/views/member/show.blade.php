@@ -21,7 +21,7 @@
             Back
         </a>
 
-        <h1 class="text-2xl font-bold text-body-text">
+        <h1 class="text-2xl font-bold text-body-text dark:text-white">
             Profil Anggota
         </h1>
 
@@ -157,7 +157,8 @@
             Rincian kehadiran
         </h2>
 
-        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 sm:p-8 overflow-x-auto">
+        <!-- Desktop Table -->
+        <div class="hidden sm:block bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 sm:p-8 overflow-x-auto">
 
             <table class="w-full text-sm sm:text-lg">
 
@@ -169,11 +170,11 @@
                         </th>
 
                         <th class="pb-4 sm:pb-8 text-center whitespace-nowrap">
-                            Waktu hadir
+                            Waktu Datang
                         </th>
 
                         <th class="pb-4 sm:pb-8 text-center whitespace-nowrap">
-                            Waktu keluar
+                            Waktu Pulang
                         </th>
 
                     </tr>
@@ -210,7 +211,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" class="py-5 text-center text-gray-500 font-semibold">
+                        <td colspan="3" class="py-5 text-center text-gray-500 font-semibold dark:text-gray-400">
                             Belum ada riwayat kehadiran.
                         </td>
                     </tr>
@@ -221,12 +222,55 @@
 
         </div>
 
+        <!-- Mobile List View -->
+        <div class="sm:hidden space-y-3">
+            @forelse ($rincian as $row)
+            <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 border border-gray-100 dark:border-white/10 space-y-3 font-title">
+                <div class="border-b border-gray-200 dark:border-white/5 pb-2">
+                    <span class="font-bold text-sm text-gray-900 dark:text-white">
+                        {{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('l, d F Y') }}
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-xs font-body text-gray-600 dark:text-[#E0E0E0]">
+                    <div>
+                        <p class="text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider text-[10px]">Waktu Datang</p>
+                        @if ($row['waktu_datang'] === '-')
+                        <span class="inline-block bg-[#0047C5]/75 border border-[#0047C5] text-white font-bold px-3 py-1 rounded-lg shadow-sm text-xs mt-1">
+                            -- : --
+                        </span>
+                        @else
+                        <span class="inline-block bg-[#2DA635]/75 border border-[#2DA635] text-white font-bold px-3 py-1 rounded-lg shadow-sm text-xs mt-1">
+                            {{ $row['waktu_datang'] }}
+                        </span>
+                        @endif
+                    </div>
+                    <div>
+                        <p class="text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider text-[10px]">Waktu Pulang</p>
+                        @if ($row['waktu_pulang'] === '-')
+                        <span class="inline-block bg-[#0047C5]/75 border border-[#0047C5] text-white font-bold px-3 py-1 rounded-lg shadow-sm text-xs mt-1">
+                            -- : --
+                        </span>
+                        @else
+                        <span class="inline-block bg-[#D91E2E]/75 border border-[#D91E2E] text-white font-bold px-3 py-1 rounded-lg shadow-sm text-xs mt-1">
+                            {{ $row['waktu_pulang'] }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-6 text-center font-body text-body-text dark:text-gray-400">
+                Belum ada riwayat kehadiran.
+            </div>
+            @endforelse
+        </div>
+
     </div>
 
 
 
     <!-- Legend -->
-    <div class="flex flex-wrap items-center gap-6 sm:gap-20 mt-6 font-title">
+    <div class="flex flex-wrap items-center gap-6 sm:gap-20 mt-6 font-title dark:text-white">
 
         <div class="flex items-center gap-3">
 
@@ -235,7 +279,7 @@
             </span>
 
             <span class="font-semibold text-sm sm:text-base">
-                Waktu Hadir
+                Waktu Datang
             </span>
 
         </div>
@@ -247,7 +291,7 @@
             </span>
 
             <span class="font-semibold text-sm sm:text-base">
-                Waktu Keluar
+                Waktu Pulang
             </span>
 
         </div>

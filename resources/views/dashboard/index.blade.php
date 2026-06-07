@@ -5,7 +5,7 @@
     <div class="grid grid-cols-12 lg:grid-cols-12 gap-4 sm:gap-8">
         <div class="col-span-12 lg:col-span-4">
             <!-- Greeting -->
-            <div class="h-full flex flex-col justify-center font-title text-body-text py-2 sm:py-5">
+            <div class="h-full flex flex-col justify-center font-title text-body-text dark:text-white py-2 sm:py-5">
 
                 @php
                     $hour = now()->hour;
