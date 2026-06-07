@@ -38,16 +38,15 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/rekap', [RekapController::class, 'index'])->name('rekap.index');
     Route::get('/rekap/{id}', [RekapController::class, 'show'])->name('rekap.show');
     
+    // Anggota
+    Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+    Route::get('/member/peserta', [MemberController::class, 'peserta'])->name('member.peserta');
+    Route::get('/member/pengurus', [MemberController::class, 'pengurus'])->name('member.pengurus');
+    Route::get('/member/show', [MemberController::class, 'show'])->name('member.show');
+    
     // Jadwal
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
-
-
-    // Anggota
-    Route::get('/anggota', [MemberController::class, 'index'])->name('member.index');
-    Route::get('/anggota/peserta', [MemberController::class, 'peserta'])->name('member.peserta');
-    Route::get('/anggota/pengurus', [MemberController::class, 'pengurus'])->name('member.pengurus');
-    Route::get('/anggota/show', [MemberController::class, 'show'])->name('member.show');
-
+    Route::get('/jadwal/show', [JadwalController::class, 'show'])->name('jadwal.show');
 
     // Detail Absensi
     Route::get('/detail', [DetailController::class, 'index'])->name('detail.index');
