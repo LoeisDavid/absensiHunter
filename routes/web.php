@@ -54,5 +54,6 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     // Detail Absensi
     Route::get('/detail', [DetailController::class, 'index'])->name('detail.index');
     Route::get('/detail/print', [DetailController::class, 'print'])->name('detail.print');
+    Route::get('/detail/download', [DetailController::class, 'download'])->name('detail.download');
 });
 

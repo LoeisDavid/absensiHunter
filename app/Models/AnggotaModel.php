@@ -204,7 +204,7 @@ class AnggotaModel
             'nama'    => $row[2] ?? '',
             'divisi'  => $row[3] ?? '',
             'jabatan' => $row[4] ?? '',
-            'role'    => strtolower(trim($row[5] ?? 'peserta')),
+            'role'    => (!empty($row[5]) && trim($row[5]) !== '') ? strtolower(trim($row[5])) : 'peserta',
             'photo'   => !empty($row[6]) ? trim($row[6]) : null,
         ];
     }

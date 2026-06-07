@@ -137,4 +137,17 @@ class DetailController extends Controller
 
         return view('detail.print', compact('selectedMonth', 'selectedRole', 'pertemuanList', 'summary'));
     }
+
+    public function download(Request $request)
+    {
+        $selectedMonth = $request->query('month', date('Y-m'));
+        $selectedRole = $request->query('role', 'all');
+
+        list($pertemuanList, $summary) = $this->getDetailData($selectedMonth, $selectedRole);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('detail.pdf', compact('selectedMonth', 'selectedRole', 'pertemuanList', 'summary'));
+        
+        $filename = 'Laporan_Absensi_' . $selectedMonth . '_' . $selectedRole . '.pdf';
+        return $pdf->download($filename);
+    }
 }
