@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Login Admin</title>
     <script>
         (function() {
@@ -17,14 +17,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script>
         (function () {
-            document.addEventListener('wheel', function (e) {
-                if (e.ctrlKey) { e.preventDefault(); }
-            }, { passive: false });
-            document.addEventListener('keydown', function (e) {
-                if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '_' || e.key === '0')) {
-                    e.preventDefault();
-                }
-            });
+            function applyAntiZoom() {
+                var ratio = window.outerWidth / window.innerWidth;
+                if (!ratio || !isFinite(ratio) || ratio <= 0) ratio = 1;
+                var body = document.body;
+                body.style.transform = 'scale(' + (1 / ratio) + ')';
+                body.style.transformOrigin = 'top left';
+                body.style.width = (ratio * 100) + '%';
+                body.style.minHeight = (ratio * 100) + 'vh';
+                body.style.overflowX = 'hidden';
+            }
+            applyAntiZoom();
+            window.addEventListener('resize', applyAntiZoom);
         })();
     </script>
 </head>
