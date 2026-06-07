@@ -64,27 +64,27 @@
             </div>
 
             <!-- Filter Form -->
-            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-150 font-title">
+            <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-xl shadow-sm p-4 border border-gray-150 dark:border-white/10 font-title">
                 <form method="GET" action="{{ route('detail.index') }}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
                     <!-- Month Filter -->
                     <div class="flex flex-col gap-1.5">
-                        <label for="filter_month" class="font-bold text-xs text-gray-700">Pilih Bulan</label>
+                        <label for="filter_month" class="font-bold text-xs text-gray-700 dark:text-[#E0E0E0]">Pilih Bulan</label>
                         <input type="month" name="month" id="filter_month" value="{{ $selectedMonth }}" onchange="this.form.submit()"
-                            class="w-full px-3 py-2 rounded-lg border-2 border-black focus:outline-none bg-whitesmoke text-xs font-semibold">
+                            class="w-full px-3 py-2 rounded-lg border-2 border-black dark:border-white/20 focus:outline-none bg-whitesmoke dark:bg-[#1A1A1A] dark:text-white text-xs font-semibold">
                     </div>
 
                     <!-- Role Filter -->
                     <div class="flex flex-col gap-1.5">
-                        <label for="filter_role" class="font-bold text-xs text-gray-700">Peran (Role)</label>
+                        <label for="filter_role" class="font-bold text-xs text-gray-700 dark:text-[#E0E0E0]">Peran (Role)</label>
                         <div class="relative">
                             <select name="role" id="filter_role" onchange="this.form.submit()"
-                                class="w-full px-3 py-2 rounded-lg border-2 border-black bg-whitesmoke text-xs font-semibold appearance-none cursor-pointer outline-none">
+                                class="w-full px-3 py-2 rounded-lg border-2 border-black dark:border-white/20 bg-whitesmoke dark:bg-[#1A1A1A] dark:text-white text-xs font-semibold appearance-none cursor-pointer outline-none">
                                 <option value="all" {{ $selectedRole === 'all' ? 'selected' : '' }}>Semua</option>
                                 <option value="peserta" {{ $selectedRole === 'peserta' ? 'selected' : '' }}>Peserta</option>
                                 <option value="pengurus" {{ $selectedRole === 'pengurus' ? 'selected' : '' }}>Panitia</option>
                             </select>
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                <svg class="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-3 h-3 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </div>
@@ -100,17 +100,17 @@
         <div class="col-span-12 md:col-span-8 lg:col-span-9">
 
             <!-- Card Abu -->
-            <div class="bg-[#F5F5F5] rounded-2xl shadow-md p-4 sm:p-8 space-y-6 sm:space-y-10">
+            <div class="bg-[#F5F5F5] dark:bg-[#1A1A1A] rounded-2xl shadow-md p-4 sm:p-8 space-y-6 sm:space-y-10">
 
                 @forelse ($pertemuanList as $pertemuan)
                 <!-- Card Tanggal -->
-                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-10">
+                <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-xl shadow-sm p-4 sm:p-10">
 
                     <div class="text-center mb-6 sm:mb-10">
-                        <h2 class="text-lg sm:text-2xl font-title font-bold text-body-text px-2">
+                        <h2 class="text-lg sm:text-2xl font-title font-bold text-body-text dark:text-white px-2">
                             {{ \Carbon\Carbon::parse($pertemuan['tanggal'])->translatedFormat('l, d F Y') }}
                             <br class="sm:hidden">
-                            <span class="text-sm sm:text-lg text-gray-500 font-semibold">
+                            <span class="text-sm sm:text-lg text-gray-500 dark:text-gray-400 font-semibold">
                                 - {{ $pertemuan['kegiatan'] }} ({{ $pertemuan['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }})
                             </span>
                         </h2>
@@ -120,7 +120,7 @@
                     <div class="hidden lg:block overflow-x-auto">
                         <table class="w-full font-title">
                             <thead>
-                                <tr class="bg-[#D9D9D9] text-white">
+                                <tr class="bg-[#D9D9D9] dark:bg-slate-800 text-white dark:text-[#E0E0E0]">
                                     <th class="px-6 py-5 text-left">Nama</th>
                                     <th class="px-6 py-5 text-center">NIS</th>
                                     <th class="px-6 py-5 text-center">Status</th>
@@ -128,9 +128,9 @@
                                     <th class="px-6 py-5 text-center">Jam pulang</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
+                            <tbody class="divide-y divide-gray-200 dark:divide-white/5">
                                 @forelse ($pertemuan['attendees'] as $row)
-                                <tr class="bg-white">
+                                <tr class="bg-white dark:bg-[#252525] dark:text-[#E0E0E0]">
                                     <td class="px-6 py-5">
                                         {{ $row['nama'] }}
                                     </td>
@@ -173,9 +173,9 @@
                     <!-- Mobile List View -->
                     <div class="lg:hidden space-y-3">
                         @forelse ($pertemuan['attendees'] as $row)
-                        <div class="bg-slate-50 rounded-xl p-4 border border-gray-150 space-y-3 font-title">
-                            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
-                                <span class="font-bold text-sm text-gray-900">{{ $row['nama'] }}</span>
+                        <div class="bg-slate-50 dark:bg-[#1E1E1E] dark:border dark:border-white/5 rounded-xl p-4 border border-gray-150 dark:border-white/10 space-y-3 font-title">
+                            <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/5 pb-2">
+                                <span class="font-bold text-sm text-gray-900 dark:text-white">{{ $row['nama'] }}</span>
                                 <span class="text-xs font-bold px-2.5 py-0.5 rounded-md
                                     {{ $row['status'] === 'Hadir' ? 'bg-[#2DA635]/15 text-[#2DA635]' : 'bg-[#D91E2E]/15 text-[#D91E2E]' }}">
                                     {{ $row['status'] }}
@@ -184,15 +184,15 @@
                             <div class="grid grid-cols-3 gap-2 text-xs font-body text-gray-600">
                                 <div>
                                     <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">NIS</p>
-                                    <p class="font-mono mt-0.5 text-gray-800 font-semibold">{{ $row['nis'] }}</p>
+                                    <p class="font-mono mt-0.5 text-gray-800 dark:text-white font-semibold">{{ $row['nis'] }}</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Jam Hadir</p>
-                                    <p class="mt-0.5 text-gray-800 font-semibold">{{ $row['waktu_datang'] }}</p>
+                                    <p class="mt-0.5 text-gray-800 dark:text-white font-semibold">{{ $row['waktu_datang'] }}</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Jam Pulang</p>
-                                    <p class="mt-0.5 text-gray-800 font-semibold">{{ $row['waktu_pulang'] }}</p>
+                                    <p class="mt-0.5 text-gray-800 dark:text-white font-semibold">{{ $row['waktu_pulang'] }}</p>
                                 </div>
                             </div>
                         </div>
@@ -209,10 +209,10 @@
                 @endforelse
 
                 <!-- Card Total Kehadiran -->
-                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-10">
+                <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-xl shadow-sm p-4 sm:p-10">
 
                     <div class="text-center mb-6 sm:mb-10">
-                        <h2 class="text-lg sm:text-2xl font-title font-bold text-body-text px-2">
+                        <h2 class="text-lg sm:text-2xl font-title font-bold text-body-text dark:text-white px-2">
                             Tabel Total Kehadiran ({{ \Carbon\Carbon::parse($selectedMonth)->translatedFormat('F Y') }})
                         </h2>
                     </div>
@@ -221,15 +221,15 @@
                     <div class="hidden lg:block overflow-x-auto">
                         <table class="w-full font-title">
                             <thead>
-                                <tr class="bg-[#D9D9D9] text-white">
+                                <tr class="bg-[#D9D9D9] dark:bg-slate-800 text-white dark:text-[#E0E0E0]">
                                     <th class="px-6 py-5 text-left">Nama</th>
                                     <th class="px-6 py-5 text-center">Hadir</th>
                                     <th class="px-6 py-5 text-center">Tidak Hadir</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
+                            <tbody class="divide-y divide-gray-200 dark:divide-white/5">
                                 @forelse ($summary as $row)
-                                <tr class="bg-white">
+                                <tr class="bg-white dark:bg-[#252525] dark:text-[#E0E0E0]">
                                     <td class="px-6 py-5">
                                         {{ $row['nama'] }}
                                     </td>
@@ -256,9 +256,9 @@
                     <!-- Mobile List View -->
                     <div class="lg:hidden space-y-3">
                         @forelse ($summary as $row)
-                        <div class="bg-slate-50 rounded-xl p-4 border border-gray-150 flex items-center justify-between font-title">
+                        <div class="bg-slate-50 dark:bg-[#1E1E1E] dark:border dark:border-white/5 rounded-xl p-4 border border-gray-150 flex items-center justify-between font-title">
                             <div>
-                                <h4 class="font-bold text-sm text-gray-900">{{ $row['nama'] }}</h4>
+                                <h4 class="font-bold text-sm text-gray-900 dark:text-white">{{ $row['nama'] }}</h4>
                             </div>
                             <div class="flex items-center gap-3 text-xs font-bold">
                                 <span class="bg-green-50 text-green-700 px-2.5 py-1 rounded-lg">

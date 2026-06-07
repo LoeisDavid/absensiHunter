@@ -34,8 +34,8 @@
         </div>
         <!-- Card Peserta-->
         <div class="col-span-6 md:col-span-6 lg:col-span-4">
-            <div class="bg-white rounded-2xl p-4 sm:p-8 shadow-sm h-full">
-                <div class="flex items-center justify-between h-full text-font1">
+            <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl p-4 sm:p-8 shadow-sm h-full">
+                <div class="flex items-center justify-between h-full text-font1 dark:text-white">
                     <!-- left -->
                     <div class="font-title">
                         <h1 class="text-3xl sm:text-5xl font-title font-bold px-1 sm:px-2">
@@ -66,8 +66,8 @@
         <!-- end Card Peserta -->
          <!-- Card Panitia-->
         <div class="col-span-6 md:col-span-6 lg:col-span-4">
-            <div class="bg-[#2DA635]/50 rounded-2xl p-4 sm:p-8 shadow-sm h-full">
-                <div class="flex items-center justify-between h-full  text-font2">
+            <div class="bg-[#2DA635]/50 dark:bg-[#2DA635]/30 rounded-2xl p-4 sm:p-8 shadow-sm h-full">
+                <div class="flex items-center justify-between h-full text-font2 dark:text-white">
                     <!-- left -->
                     <div class="font-title">
                         <h1 class="text-3xl sm:text-5xl font-bold px-1 sm:px-2">
@@ -98,10 +98,10 @@
     </div>
 
     <!-- Bottom Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 sm:gap-8 sm:mt-8 text-body-text">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 sm:gap-8 sm:mt-8 text-body-text dark:text-[#E0E0E0]">
 
         <!-- Card -->
-        <div class="bg-white rounded-xl shadow-sm p-3 sm:p-6 font-title">
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-xl shadow-sm p-3 sm:p-6 font-title">
             <div class="flex items-center justify-between px-2 sm:px-4">
                 <h2 class="text-base sm:text-lg font-semibold">Peserta yang hadir</h2>
                 <a class="text-[10px] sm:text-xs text-[#D91E2E] font-semibold" href="{{ route('absensi.peserta') }}">See more...</a>
@@ -110,7 +110,7 @@
             <!-- List Peserta -->
                 <div class="mt-4 sm:mt-8 space-y-4">
                     @forelse($recentPeserta as $peserta)
-                    <div class="flex items-center gap-3 px-2 sm:gap-4 sm:px-4 pb-4 border-b border-gray-100 font-body">
+                    <div class="flex items-center gap-3 px-2 sm:gap-4 sm:px-4 pb-4 border-b border-gray-100 dark:border-white/5 font-body">
                         <!-- Photo -->
                             @if(!empty($peserta['photo']) && file_exists(public_path($peserta['photo'])))
                                 <img
@@ -119,7 +119,7 @@
                                     class="w-10 h-10 sm:w-16 sm:h-16 rounded-full object-cover shrink-0"
                                 >
                             @else
-                                <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-slate-200 text-slate-800 font-bold text-lg sm:text-2xl flex items-center justify-center uppercase font-title shrink-0">
+                                <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-lg sm:text-2xl flex items-center justify-center uppercase font-title shrink-0">
                                     {{ substr($peserta['nama'] ?? '?', 0, 1) }}
                                 </div>
                             @endif
@@ -147,7 +147,7 @@
         </div>
 
         <!-- Card -->
-        <div class="bg-white rounded-xl shadow-sm p-3 sm:p-6 font-title">
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-xl shadow-sm p-3 sm:p-6 font-title">
             <div class="flex items-center justify-between px-2 sm:px-4">
                 <h2 class="text-base sm:text-lg font-semibold">Panitia yang hadir</h2>
                 <a class="text-[10px] sm:text-xs text-[#D91E2E] font-semibold" href="{{ route('absensi.pengurus') }}">See more...</a>
@@ -155,7 +155,7 @@
             <!-- List Peserta -->
                 <div class="mt-4 sm:mt-8 space-y-4">
                     @forelse($recentPengurus as $pengurus)
-                    <div class="flex items-center gap-3 px-2 sm:gap-4 sm:px-4 pb-4 border-b border-gray-100 font-body">
+                    <div class="flex items-center gap-3 px-2 sm:gap-4 sm:px-4 pb-4 border-b border-gray-100 dark:border-white/5 font-body">
                         <!-- Photo -->
                             @if(!empty($pengurus['photo']) && file_exists(public_path($pengurus['photo'])))
                                 <img
@@ -164,7 +164,7 @@
                                     class="w-10 h-10 sm:w-16 sm:h-16 rounded-full object-cover shrink-0"
                                 >
                             @else
-                                <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-slate-200 text-slate-800 font-bold text-lg sm:text-2xl flex items-center justify-center uppercase font-title shrink-0">
+                                <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-lg sm:text-2xl flex items-center justify-center uppercase font-title shrink-0">
                                     {{ substr($pengurus['nama'] ?? '?', 0, 1) }}
                                 </div>
                             @endif

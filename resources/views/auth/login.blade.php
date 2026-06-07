@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin</title>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-cover bg-center bg-no-repeat min-h-dvh
@@ -15,7 +25,7 @@
         <!-- MOBILE LOGO -->
         <div class="lg:hidden flex items-center justify-end mx-4">
 
-            <div class="w-20 h-20 bg-white rounded-full shadow-xl flex items-center justify-center">
+            <div class="w-20 h-20 bg-white dark:bg-[#1e1e1e] dark:border dark:border-white/5 rounded-full shadow-xl flex items-center justify-center">
 
                 <img
                     src="{{ asset('img/logo/logo_nama.png') }}"
@@ -30,7 +40,7 @@
         <!-- LEFT -->
         <section class="hidden lg:flex items-center justify-center">
             <!-- Logo Circle -->
-            <div class="bg-white rounded-full shadow-xl flex items-center justify-center" style="width: 450px; height: 450px;">
+            <div class="bg-white dark:bg-[#1e1e1e] dark:border dark:border-white/5 rounded-full shadow-xl flex items-center justify-center" style="width: 450px; height: 450px;">
                 <img
                     src="{{ asset('img/logo/logo_nama.png') }}"
                     alt="Logo"
@@ -42,11 +52,11 @@
         <!-- Right -->
         <section class="flex items-center justify-center p-4 lg:mr-5 lg:p-8">
             <!-- Card -->
-            <div class="max-w-md lg:max-w-2xl w-full rounded-2xl bg-[#FAFAFA] shadow-lg p-8 lg:p-16">
+            <div class="max-w-md lg:max-w-2xl w-full rounded-2xl bg-[#FAFAFA] dark:bg-[#1e1e1e] dark:border dark:border-white/5 shadow-lg p-8 lg:p-16">
                 <!-- Header -->
                 <div class="font-title">
 
-                    <h1 class="text-2xl lg:text-4xl font-bold text-font1">
+                    <h1 class="text-2xl lg:text-4xl font-bold text-font1 dark:text-white">
                         LOGIN ADMIN
                     </h1>
 
@@ -61,12 +71,12 @@
                     @csrf
                     <!-- Username -->
                     <div>
-                        <label class="block text-base lg:text-lg font-semibold text-font1 mb-4 font-title" for="username">
+                        <label class="block text-base lg:text-lg font-semibold text-font1 dark:text-white mb-4 font-title" for="username">
                             Your Username
                         </label>
                         <input
                             type="text"
-                            class="w-full border-2 border-black rounded-2xl px-4 py-3 text-xs lg:px-5 lg:py-4 lg:text-md outline-none bg-[#F5F5F5] font-body"
+                            class="w-full border-2 border-black dark:border-white/20 rounded-2xl px-4 py-3 text-xs lg:px-5 lg:py-4 lg:text-md outline-none bg-[#F5F5F5] dark:bg-[#252525] dark:text-white font-body"
                             placeholder="Input username"
                             name="username" id="username"
                             value="{{ old('username') }}"
@@ -75,12 +85,12 @@
 
                     <!-- Password -->
                     <div>
-                        <label class="block text-base lg:text-lg font-semibold text-font1 mb-4 font-title" for="password">
+                        <label class="block text-base lg:text-lg font-semibold text-font1 dark:text-white mb-4 font-title" for="password">
                             Your Password
                         </label>
                         <input
                             type="password"
-                            class="w-full border-2 border-black rounded-2xl px-4 py-3 text-xs lg:px-5 lg:py-4 lg:text-md outline-none bg-[#F5F5F5] font-body"
+                            class="w-full border-2 border-black dark:border-white/20 rounded-2xl px-4 py-3 text-xs lg:px-5 lg:py-4 lg:text-md outline-none bg-[#F5F5F5] dark:bg-[#252525] dark:text-white font-body"
                             placeholder="Input password"
                             name="password" id="password"
                             value="{{ old('password') }}"
@@ -90,7 +100,7 @@
                     <!-- Button -->
                     <div class="flex justify-center pt-3 lg:pt-10 font-title">
                         <button
-                            class="bg-[#363636] hover:bg-[#4d4d4d] transition text-white text-base lg:text-lg font-semibold px-14 py-2 lg:px-20 lg:py-2 rounded-2xl"
+                            class="bg-[#363636] hover:bg-[#4d4d4d] dark:bg-[#D91E2E] dark:hover:bg-[#ff384b] transition text-white text-base lg:text-lg font-semibold px-14 py-2 lg:px-20 lg:py-2 rounded-2xl"
                             type="submit"
                         >
                             Login

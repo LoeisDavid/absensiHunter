@@ -15,12 +15,12 @@
 
 
         <!-- Tabs -->
-        <div class="flex items-center font-title w-fit overflow-hidden rounded-2xl shadow-sm border border-gray-200 sm:mt-2">
+        <div class="flex items-center font-title w-fit overflow-hidden rounded-2xl shadow-sm border border-gray-200 dark:border-white/10 sm:mt-2">
 
             <!-- Peserta -->
             <a
                 href="{{ route('absensi.peserta') }}"
-                class="px-5 py-2 sm:px-10 sm:py-3 text-sm sm:text-xl font-bold transition"
+                class="px-5 py-2 sm:px-10 sm:py-3 text-sm sm:text-xl font-bold transition dark:text-[#E0E0E0] hover:dark:bg-white/5"
             >
                 Peserta
             </a>
@@ -38,10 +38,10 @@
 </div>
 
     <!-- Table Wrapper -->
-    <div class="hidden lg:block mt-10 bg-white rounded-2xl shadow-sm p-8">
+    <div class="hidden lg:block mt-10 bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-8">
 
         <!-- Header -->
-        <div class="grid grid-cols-4 pb-6 border-b border-gray-200 font-title text-body-text">
+        <div class="grid grid-cols-4 pb-6 border-b border-gray-200 dark:border-white/10 font-title text-body-text dark:text-white">
 
             <div class="text-xl font-bold">
                 Nama
@@ -64,11 +64,11 @@
 
 
         <!-- Body -->
-        <div class="divide-y divide-gray-100">
+        <div class="divide-y divide-gray-100 dark:divide-white/5">
 
             <!-- Row -->
              @forelse($data as $i => $row)
-            <div class="grid grid-cols-4 items-center py-5 font-body text-body-text">
+            <div class="grid grid-cols-4 items-center py-5 font-body text-body-text dark:text-[#E0E0E0]">
 
                 <!-- Nama -->
                 <div class="flex items-center gap-4">
@@ -81,7 +81,7 @@
                             class="w-12 h-12 rounded-full object-cover shrink-0"
                         >
                     @else
-                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
                             {{ substr($row['nama'] ?? '?', 0, 1) }}
                         </div>
                     @endif
@@ -93,7 +93,7 @@
                             {{ $row['nama'] }}
                         </h3>
 
-                        <p class="text-sm text-gray-500">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
                             {{ $row['divisi'] }}
                         </p>
 
@@ -146,7 +146,7 @@
     <div class="lg:hidden mt-8 space-y-4">
         @forelse($data as $row)
 
-        <details class="bg-white rounded-2xl shadow-sm p-4 group">
+        <details class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 group">
 
             <!-- HEADER -->
             <summary class="list-none cursor-pointer flex items-center justify-between">
@@ -162,7 +162,7 @@
                             class="w-12 h-12 rounded-full object-cover shrink-0"
                         >
                     @else
-                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
                             {{ substr($row['nama'] ?? '?', 0, 1) }}
                         </div>
                     @endif
@@ -170,7 +170,7 @@
                     <!-- Info -->
                     <div>
 
-                        <h3 class="font-title font-semibold text-sm">
+                        <h3 class="font-title font-semibold text-sm dark:text-white">
                             Nama : {{ $row['nama'] }}
                         </h3>
 
@@ -199,7 +199,7 @@
 
 
             <!-- CONTENT -->
-            <div class="mt-5 border-t border-gray-100 pt-4 font-body text-body-text space-y-4">
+            <div class="mt-5 border-t border-gray-100 dark:border-white/5 pt-4 font-body text-body-text dark:text-[#E0E0E0] space-y-4">
 
                 <!-- NIS -->
                 <div class="flex items-center justify-between text-sm opacity-75">

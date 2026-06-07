@@ -43,13 +43,13 @@
                     class="w-32 h-32 sm:w-44 sm:h-44 rounded-full object-cover shrink-0"
                 >
             @else
-                <div class="w-32 h-32 sm:w-44 sm:h-44 rounded-full bg-slate-200 text-slate-800 font-bold text-5xl sm:text-7xl flex items-center justify-center uppercase font-title shrink-0">
+                <div class="w-32 h-32 sm:w-44 sm:h-44 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-5xl sm:text-7xl flex items-center justify-center uppercase font-title shrink-0">
                     {{ substr($anggota['nama'] ?? '?', 0, 1) }}
                 </div>
             @endif
 
             <!-- Biodata -->
-            <div class="space-y-4 sm:space-y-10 font-title text-body-text w-full">
+            <div class="space-y-4 sm:space-y-10 font-title text-body-text dark:text-white w-full">
 
                 <div class="flex items-center">
                     <span class="font-bold text-lg sm:text-xl w-24 sm:w-32">Nama</span>
@@ -153,16 +153,16 @@
     <!-- Rincian Kehadiran -->
     <div class="mt-10">
 
-        <h2 class="font-title text-3xl font-bold text-body-text mb-8">
+        <h2 class="font-title text-3xl font-bold text-body-text dark:text-white mb-8">
             Rincian kehadiran
         </h2>
 
-        <div class="bg-white rounded-2xl shadow-sm p-4 sm:p-8 overflow-x-auto">
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 sm:p-8 overflow-x-auto">
 
             <table class="w-full text-sm sm:text-lg">
 
                 <thead>
-                    <tr class="font-title text-lg sm:text-2xl text-body-text">
+                    <tr class="font-title text-lg sm:text-2xl text-body-text dark:text-white">
 
                         <th class="pb-4 sm:pb-8 text-center whitespace-nowrap">
                             Tanggal
@@ -181,7 +181,7 @@
 
                 <tbody class="font-body">
                     @forelse ($rincian as $row)
-                    <tr class="border-b border-gray-200">
+                    <tr class="border-b border-gray-200 dark:border-white/10">
                         <td class="py-3 sm:py-5 text-center whitespace-nowrap">
                             {{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('l, d F Y') }}
                         </td>

@@ -9,7 +9,7 @@
 
             <div class="flex items-center gap-3 sm:gap-6">
                 <!-- Title -->
-                <h1 class="text-xl sm:text-2xl font-bold text-body-text px-2 sm:px-6">
+                <h1 class="text-xl sm:text-2xl font-bold text-body-text dark:text-white px-2 sm:px-6">
                     Tabel Jadwal
                 </h1>
             </div>
@@ -26,8 +26,8 @@
                     </svg>
                 </button>
 
-                <dialog id="addSchedule" class="m-auto rounded-2xl border-none p-0 shadow-2xl backdrop:bg-black/50 open:animate-in open:fade-in open:zoom-in duration-300">
-                    <div class="w-135 max-w-full bg-white p-12 flex flex-col relative">
+                <dialog id="addSchedule" class="m-auto rounded-2xl border-none p-0 shadow-2xl backdrop:bg-black/50 open:animate-in open:fade-in open:zoom-in duration-300 dark:bg-[#1A1A1A]">
+                    <div class="w-135 max-w-full bg-white dark:bg-[#1A1A1A] dark:text-white p-12 flex flex-col relative">
                         
                         <div class="flex items-center gap-3 mb-10">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 shrink-0">
@@ -41,29 +41,29 @@
                             @csrf
                             <div class="flex flex-col gap-3">
                                 <label class="font-bold text-lg" for="activity">Activity</label>
-                                <input type="text" id="activity" placeholder="Contoh: Kelas Coding" 
-                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black focus:outline-none bg-whitesmoke text-base font-medium">
+                                <input type="text" name="activity" id="activity" placeholder="Contoh: Kelas Coding" 
+                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black dark:border-white/20 focus:outline-none bg-whitesmoke dark:bg-[#252525] dark:text-white text-base font-medium">
                             </div>
 
                             <div class="flex flex-col gap-3">
                                 <label class="font-bold text-lg" for="date">Date (DD/MM/YYYY)</label>
-                                <input type="date" id="date" placeholder="--/--/----" 
-                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black focus:outline-none bg-whitesmoke text-base font-medium">
+                                <input type="date" name="date" id="date" placeholder="--/--/----" 
+                                    class="w-full px-6 py-4 rounded-2xl border-2 border-black dark:border-white/20 focus:outline-none bg-whitesmoke dark:bg-[#252525] dark:text-white text-base font-medium">
                             </div>
 
                             <div class="flex flex-col gap-3">
-                                <label class="font-bold text-lg text-gray-900">Role</label>
+                                <label class="font-bold text-lg text-gray-900 dark:text-white">Role</label>
                                 
                                 <div class="relative">
                                     <select name="role" id="role" 
-                                        class="w-full px-6 py-4 rounded-2xl border-2 border-black bg-whitesmoke text-base font-medium appearance-none cursor-pointer transition-all outline-none">
+                                        class="w-full px-6 py-4 rounded-2xl border-2 border-black dark:border-white/20 bg-whitesmoke dark:bg-[#252525] dark:text-white text-base font-medium appearance-none cursor-pointer transition-all outline-none">
                                         <option value="" disabled selected>Pilih Role</option>
                                         <option value="peserta">Peserta</option>
                                         <option value="pengurus">Panitia</option>
                                     </select>
 
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
-                                        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </div>
@@ -90,10 +90,10 @@
     <!-- end Header -->
 
     <!-- Table -->
-    <div class="hidden lg:flex w-full mt-8 bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm font-title flex-col items-center">
+    <div class="hidden lg:flex w-full mt-8 bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-3xl border border-gray-200 dark:border-white/10 overflow-hidden shadow-sm font-title flex-col items-center">
         <table class="w-full border-collapse text-center mt-4">
             <thead>
-                <tr class="text-gray-900">
+                <tr class="text-gray-900 dark:text-white">
                     <th class="font-bold text-xl px-6 py-6">Tanggal</th>
                     <th class="font-bold text-xl px-6 py-6">Kegiatan</th>
                     <th class="font-bold text-xl px-6 py-6">Total</th>
@@ -102,9 +102,9 @@
                     <th class="font-bold text-xl px-6 py-6">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="text-body-text text-lg font-medium">
+            <tbody class="text-body-text dark:text-[#E0E0E0] text-lg font-medium font-body">
                 @forelse ($schedules as $row)
-                <tr class="border-t border-gray-100">
+                <tr class="border-t border-gray-100 dark:border-white/5">
                     <td class="px-6 py-5">
                         {{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('d F Y') }}
                     </td>
@@ -122,7 +122,7 @@
                     </td>
                     <td class="px-6 py-5">
                         @if ($row['status'] === 'Segera')
-                            <button disabled class="px-8 py-2 border-2 border-gray-200 text-gray-300 rounded-xl font-bold text-lg bg-white cursor-not-allowed">
+                            <button disabled class="px-8 py-2 border-2 border-gray-200 dark:border-white/10 text-gray-300 dark:text-gray-600 rounded-xl font-bold text-lg bg-white dark:bg-[#252525] cursor-not-allowed">
                                 Detail
                             </button>
                         @else
@@ -146,9 +146,9 @@
     <!-- Mobile Card -->
     <div class="lg:hidden mt-8 space-y-4 w-full">
         @forelse ($schedules as $row)
-        <div class="bg-white rounded-2xl shadow-sm p-4 border border-gray-150 space-y-3 font-title">
-            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
-                <span class="font-bold text-sm text-gray-900">{{ $row['kegiatan'] }}</span>
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 border border-gray-150 dark:border-white/10 space-y-3 font-title">
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/5 pb-2">
+                <span class="font-bold text-sm text-gray-900 dark:text-white">{{ $row['kegiatan'] }}</span>
                 <span class="text-xs font-bold px-2.5 py-0.5 rounded-md border
                     @if ($row['status'] === 'Berlangsung') bg-blue-50 text-blue-700 border-blue-200
                     @elseif ($row['status'] === 'Selesai') bg-green-50 text-green-700 border-green-200
@@ -161,11 +161,11 @@
             <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
                 <div>
                     <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Tanggal</p>
-                    <p class="mt-0.5 text-gray-800 font-semibold text-[11px]">{{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('d M Y') }}</p>
+                    <p class="mt-0.5 text-gray-800 dark:text-white font-semibold text-[11px]">{{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('d M Y') }}</p>
                 </div>
                 <div>
                     <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Peran / Total Hadir</p>
-                    <p class="mt-0.5 text-gray-800 font-semibold text-[11px] capitalize">{{ $row['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }} ({{ $row['total_hadir'] }})</p>
+                    <p class="mt-0.5 text-gray-800 dark:text-white font-semibold text-[11px] capitalize">{{ $row['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }} ({{ $row['total_hadir'] }})</p>
                 </div>
             </div>
 
@@ -177,7 +177,7 @@
             </div>
             @else
             <div class="pt-2">
-                <button disabled class="w-full text-center py-2 border-2 border-gray-200 text-gray-300 rounded-xl font-bold text-sm bg-white cursor-not-allowed">
+                <button disabled class="w-full text-center py-2 border-2 border-gray-200 dark:border-white/10 text-gray-300 dark:text-gray-600 rounded-xl font-bold text-sm bg-white dark:bg-[#252525] cursor-not-allowed">
                     Detail
                 </button>
             </div>
