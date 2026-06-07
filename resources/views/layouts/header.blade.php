@@ -83,19 +83,20 @@
                 </a> -->
 
                 <!-- Qr -->
-                <a href="{{ route('scan') }}" class="shadow-md rounded-lg p-2 sm:bg-transparent sm:shadow-none sm:p-0 text-[#363636] hover:text-[#4d4d4d] transition flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-10 sm:h-10">
+                <a href="{{ route('scan') }}" class="shadow-md border-3 p-2 sm:px-6 sm:py-1 sm:bg-transparent sm:shadow-none text-graphite hover:text-[#4d4d4d] transition inline-flex items-center gap-2 font-bold font-title rounded-r-lg rounded-bl-lg text-lg">
+                    <span>Scan</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 shrink-0" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
-                        <path fill="currentColor" d="M3 4.5v5c0 .83.67 1.5 1.5 1.5h5c.83 0 1.5-.67 1.5-1.5v-5c0-.83-.67-1.5-1.5-1.5h-5C3.67 3 3 3.67 3 4.5M5 5h4v4H5zM3 19.5c0 .83.67 1.5 1.5 1.5h5c.83 0 1.5-.67 1.5-1.5v-5c0-.83-.67-1.5-1.5-1.5h-5c-.83 0-1.5.67-1.5 1.5zM5 15h4v4H5zM19.5 3h-5c-.83 0-1.5.67-1.5 1.5v5c0 .83.67 1.5 1.5 1.5h5c.83 0 1.5-.67 1.5-1.5v-5c0-.83-.67-1.5-1.5-1.5M19 9h-4V5h4zm-6 4h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm4 0h2v2h-2zm2 2h2v2h-2zm-4 0h2v2h-2zm2-6h2v2h-2zm2 2h2v2h-2z" />
+                        <path fill="currentColor" d="M9.5 6.5v3h-3v-3zM11 5H5v6h6zm-1.5 9.5v3h-3v-3zM11 13H5v6h6zm6.5-6.5v3h-3v-3zM19 5h-6v6h6zm-6 8h1.5v1.5H13zm1.5 1.5H16V16h-1.5zM16 13h1.5v1.5H16zm-3 3h1.5v1.5H13zm1.5 1.5H16V19h-1.5zM16 16h1.5v1.5H16zm1.5-1.5H19V16h-1.5zm0 3H19V19h-1.5zM22 7h-2V4h-3V2h5zm0 15v-5h-2v3h-3v2zM2 22h5v-2H4v-3H2zM2 2v5h2V4h3V2z" />
                     </svg>
                 </a>
 
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"
-                        class="bg-[#363636] hover:bg-[#4d4d4d] transition text-white p-2 sm:px-6 sm:py-2 rounded-r-lg rounded-bl-lg sm:rounded-r-lg sm:rounded-bl-lg shadow-sm font-bold cursor-pointer inline-flex items-center gap-2">
+                        class="bg-graphite hover:bg-[#4d4d4d] transition text-white p-2 sm:px-6 sm:py-2 rounded-r-lg rounded-bl-lg sm:rounded-r-lg sm:rounded-bl-lg shadow-sm font-bold cursor-pointer inline-flex items-center gap-2">
                         <span class="hidden sm:block font-bold">Log out</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none" />
                             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                 <path d="M14 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-2" />
