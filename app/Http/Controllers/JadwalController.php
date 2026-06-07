@@ -168,4 +168,9 @@ class JadwalController extends Controller
 
         return view('jadwal.show', compact('jadwal', 'attendees'));
     }
+
+    public function show()
+    {
+        return view('jadwal.show');
+    }
 }

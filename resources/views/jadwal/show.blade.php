@@ -2,32 +2,29 @@
 @section('title', 'Detail Jadwal')
 
 @section('content')
-    <!-- Header -->
-    <div class="flex flex-col gap-6">
-        <!-- Back -->
+<!-- Header -->
+    <div class="flex lg:flex-col gap-6">
         <div class="flex items-center gap-3 sm:gap-6 font-title">
-            <a href="{{ route('jadwal.index') }}" class="bg-graphite hover:bg-[#4d4d4d] transition flex items-center gap-2 text-white px-8 py-3 rounded-2xl shadow-sm font-bold text-lg">
+            <a href="{{ route('jadwal.index') }}" class="bg-graphite hover:bg-[#4d4d4d] transition flex items-center gap-2 text-white px-4 py-2 sm:px-8 sm:py-3 rounded-lg sm:rounded-2xl shadow-sm font-bold text-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 16 9">
                     <path d="M0 0h16v9H0z" fill="none" />
                     <path fill="currentColor" d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5" />
                     <path fill="currentColor" d="M6 8.5a.47.47 0 0 1-.35-.15l-3.5-3.5c-.2-.2-.2-.51 0-.71L5.65.65c.2-.2.51-.2.71 0s.2.51 0 .71L3.21 4.51l3.15 3.15c.2.2.2.51 0 .71c-.1.1-.23.15-.35.15Z" />
                 </svg>
-                <span>Back</span>
+                <span class="hidden sm:block">Back</span>
             </a>
         </div>
 
-
-        <!-- Title -->
         <div class="flex flex-col font-title text-body-text dark:text-white mt-4">
-            <h1 class="text-xl sm:text-5xl font-bold">
+            <h1 class="text-2xl sm:text-4xl lg:text-5xl font-bold">
                 {{ $jadwal['kegiatan'] }} <span>({{ $jadwal['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }})</span>
             </h1>
-            <span class="text-sm sm:text-lg mt-6">{{ \Carbon\Carbon::parse($jadwal['tanggal'])->translatedFormat('l, d F Y') }}</span>
+            <span class="text-sm sm:text-lg mt-4 sm:mt-6">{{ \Carbon\Carbon::parse($jadwal['tanggal'])->translatedFormat('l, d F Y') }}</span>
         </div>
     </div>
-    <!-- end Header -->
+<!-- end Header -->
 
-    <!-- Table -->
+<!-- Table Dekstop -->
     <div class="hidden lg:block w-full mt-10 bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-3xl border border-gray-100 dark:border-white/10 overflow-hidden shadow-xs font-title">
         <table class="w-full border-collapse text-left my-4">
             <thead>
@@ -90,62 +87,66 @@
             </tbody>
         </table>
     </div>
-    <!-- end Table -->
+<!-- end Table Dekstop -->
 
-    <!-- Mobile Card -->
-    <div class="lg:hidden mt-8 space-y-4">
+<!-- Table Mobile -->
+    <div class="lg:hidden w-full mt-8 font-title flex flex-col gap-4">
         @forelse ($attendees as $row)
-        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 border border-gray-150 dark:border-white/10 space-y-3 font-title">
-            <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/5 pb-2">
-                <div class="flex items-center gap-3">
+        <details class="group bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl border border-gray-200 shadow-xs overflow-hidden text-body-text dark:text-white">
+            <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none">
+                <div class="flex items-center gap-4">
                     @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
-                        <img src="{{ asset($row['photo']) }}" class="w-10 h-10 rounded-full object-cover shrink-0" alt="Avatar">
+                        <img src="{{ asset($row['photo']) }}" class="w-12 h-12 rounded-full object-cover shrink-0" alt="Avatar">
                     @else
-                        <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-base flex items-center justify-center uppercase font-title shrink-0">
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-lg flex items-center justify-center uppercase font-title shrink-0">
                             {{ substr($row['nama'] ?? '?', 0, 1) }}
                         </div>
                     @endif
-                    <div>
-                        <h3 class="font-bold text-sm text-gray-900 dark:text-white">{{ $row['nama'] }}</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">{{ $row['divisi'] }} · {{ $row['jabatan'] }}</p>
+                    <div class="flex flex-col">
+                        <h3 class="font-bold text-base md:text-lg">Nama : {{ $row['nama'] }}</h3>
+                        <p class="text-xs opacity-75 font-medium">{{ $row['divisi'] }} - {{ $row['jabatan'] }}</p>
                     </div>
                 </div>
-                <span class="text-xs font-mono font-bold text-gray-700 dark:text-[#E0E0E0]">{{ $row['nis'] }}</span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 text-xs font-body">
-                <div>
-                    <span class="block text-gray-400 font-semibold uppercase tracking-wider text-[9px] mb-1">Jam Hadir</span>
-                    @if ($row['waktu_datang'] === '-- : --')
-                    <span class="inline-block bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-lg border border-blue-200">
-                        -- : --
-                    </span>
-                    @else
-                    <span class="inline-block bg-green-50 text-green-700 font-bold px-3 py-1 rounded-lg border border-green-200">
-                        {{ $row['waktu_datang'] }}
-                    </span>
-                    @endif
+                <svg class="w-5 h-5 text-gray-700 dark:text-gray-300 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </summary>
+            
+            <div class="px-7 pb-7 pt-2 border-t border-gray-50 dark:border-white/5 flex flex-col gap-4 text-base font-bold bg-white dark:bg-[#252525] text-body-text/75 dark:text-[#E0E0E0]">
+                <div class="grid grid-cols-12 items-center">
+                    <span class="col-span-4 text-gray-500 dark:text-gray-400 font-medium">NIS</span>
+                    <span class="col-span-1 text-center text-gray-400 dark:text-gray-600">:</span>
+                    <span class="col-span-7 text-right font-mono font-bold">{{ $row['nis'] }}</span>
                 </div>
-
-                <div>
-                    <span class="block text-gray-400 font-semibold uppercase tracking-wider text-[9px] mb-1">Jam Pulang</span>
-                    @if ($row['waktu_pulang'] === '-- : --')
-                    <span class="inline-block bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-lg border border-blue-200">
-                        -- : --
-                    </span>
-                    @else
-                    <span class="inline-block bg-red-50 text-red-700 font-bold px-3 py-1 rounded-lg border border-red-200">
-                        {{ $row['waktu_pulang'] }}
-                    </span>
-                    @endif
+                <div class="grid grid-cols-12 items-center">
+                    <span class="col-span-4 text-gray-500 dark:text-gray-400 font-medium">Waktu Hadir</span>
+                    <span class="col-span-1 text-center text-gray-400 dark:text-gray-600">:</span>
+                    <div class="col-span-7 flex justify-end text-center">
+                        @if ($row['waktu_datang'] === '-- : --')
+                            <span class="w-24 py-3 bg-[#0047C5]/75 text-white font-bold rounded-lg shadow-xs text-sm tracking-wide">-- : --</span>
+                        @else
+                            <span class="w-24 py-3 bg-[#2DA635]/75 text-white font-bold rounded-lg shadow-xs text-sm tracking-wide">{{ $row['waktu_datang'] }}</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 items-center">
+                    <span class="col-span-4 text-gray-500 dark:text-gray-400 font-medium">Waktu Keluar</span>
+                    <span class="col-span-1 text-center text-gray-400 dark:text-gray-600">:</span>
+                    <div class="col-span-7 flex justify-end text-center">
+                        @if ($row['waktu_pulang'] === '-- : --')
+                            <span class="w-24 py-3 bg-[#0047C5]/75 text-white font-bold rounded-lg shadow-xs text-sm tracking-wide">-- : --</span>
+                        @else
+                            <span class="w-24 py-3 bg-flagred/75 text-white font-bold rounded-lg shadow-xs text-sm tracking-wide">{{ $row['waktu_pulang'] }}</span>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
+        </details>
         @empty
-        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-6 text-center font-body text-body-text dark:text-[#E0E0E0]">
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-6 text-center font-body text-body-text dark:text-gray-400">
             Tidak ada data anggota.
         </div>
         @endforelse
     </div>
-    <!-- end Mobile Card -->
+<!-- end Table Mobile -->
 @endsection
