@@ -57,7 +57,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <div class="w-32 py-2 bg-[#D91E2E]/75 border-3 border-[#D91E2E] text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
+                        <div class="w-32 py-2 bg-flagred/75 border-3 border-flagred text-white font-bold rounded-xl shadow-md text-center text-lg tracking-wide">
                             17:00
                         </div>
                     </td>
