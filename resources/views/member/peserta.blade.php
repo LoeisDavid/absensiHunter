@@ -136,4 +136,54 @@
         </div>
     </div>
     <!-- end Table Wrapper -->
+
+    <!-- Mobile Card -->
+    <div class="lg:hidden mt-8 space-y-4">
+        @forelse($members as $row)
+        <a href="{{ route('member.show', ['id' => $row['id']]) }}" class="block">
+            <div class="bg-white rounded-2xl shadow-sm p-4 flex items-center justify-between border border-gray-150 hover:bg-gray-50 transition duration-150">
+                <div class="flex items-center gap-3">
+                    <!-- Avatar -->
+                    @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                        <img
+                            src="{{ asset($row['photo']) }}"
+                            alt="Avatar"
+                            class="w-12 h-12 rounded-full object-cover shrink-0"
+                        >
+                    @else
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                            {{ substr($row['nama'] ?? '?', 0, 1) }}
+                        </div>
+                    @endif
+
+                    <!-- Info -->
+                    <div>
+                        <h3 class="font-title font-semibold text-sm text-gray-900">
+                            {{ $row['nama'] }}
+                        </h3>
+                        <p class="text-xs mt-1 font-body text-gray-500">
+                            {{ $row['divisi'] }} · {{ $row['jabatan'] }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- NIS and Status -->
+                <div class="text-right">
+                    <p class="text-xs font-mono font-bold text-gray-700">
+                        {{ $row['nis'] }}
+                    </p>
+                    <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-md mt-1.5
+                        {{ $row['role'] === 'pengurus' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-blue-50 text-blue-700 border border-blue-200' }}">
+                        {{ $row['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }}
+                    </span>
+                </div>
+            </div>
+        </a>
+        @empty
+        <div class="bg-white rounded-2xl shadow-sm p-6 text-center font-body text-body-text">
+            Tidak ada data anggota.
+        </div>
+        @endforelse
+    </div>
+    <!-- end Mobile Card -->
 @endsection

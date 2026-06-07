@@ -28,7 +28,7 @@
     <!-- end Header -->
 
     <!-- Table -->
-    <div class="w-full mt-10 bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-xs font-title">
+    <div class="hidden lg:block w-full mt-10 bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-xs font-title">
         <table class="w-full border-collapse text-left my-4">
             <thead>
                 <tr class="text-gray-900 border-none">
@@ -91,4 +91,61 @@
         </table>
     </div>
     <!-- end Table -->
+
+    <!-- Mobile Card -->
+    <div class="lg:hidden mt-8 space-y-4">
+        @forelse ($attendees as $row)
+        <div class="bg-white rounded-2xl shadow-sm p-4 border border-gray-150 space-y-3 font-title">
+            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+                <div class="flex items-center gap-3">
+                    @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                        <img src="{{ asset($row['photo']) }}" class="w-10 h-10 rounded-full object-cover shrink-0" alt="Avatar">
+                    @else
+                        <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-800 font-bold text-base flex items-center justify-center uppercase font-title shrink-0">
+                            {{ substr($row['nama'] ?? '?', 0, 1) }}
+                        </div>
+                    @endif
+                    <div>
+                        <h3 class="font-bold text-sm text-gray-900">{{ $row['nama'] }}</h3>
+                        <p class="text-xs text-gray-500 font-medium">{{ $row['divisi'] }} · {{ $row['jabatan'] }}</p>
+                    </div>
+                </div>
+                <span class="text-xs font-mono font-bold text-gray-700">{{ $row['nis'] }}</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-xs font-body">
+                <div>
+                    <span class="block text-gray-400 font-semibold uppercase tracking-wider text-[9px] mb-1">Jam Hadir</span>
+                    @if ($row['waktu_datang'] === '-- : --')
+                    <span class="inline-block bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-lg border border-blue-200">
+                        -- : --
+                    </span>
+                    @else
+                    <span class="inline-block bg-green-50 text-green-700 font-bold px-3 py-1 rounded-lg border border-green-200">
+                        {{ $row['waktu_datang'] }}
+                    </span>
+                    @endif
+                </div>
+
+                <div>
+                    <span class="block text-gray-400 font-semibold uppercase tracking-wider text-[9px] mb-1">Jam Pulang</span>
+                    @if ($row['waktu_pulang'] === '-- : --')
+                    <span class="inline-block bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-lg border border-blue-200">
+                        -- : --
+                    </span>
+                    @else
+                    <span class="inline-block bg-red-50 text-red-700 font-bold px-3 py-1 rounded-lg border border-red-200">
+                        {{ $row['waktu_pulang'] }}
+                    </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+        @empty
+        <div class="bg-white rounded-2xl shadow-sm p-6 text-center font-body text-body-text">
+            Tidak ada data anggota.
+        </div>
+        @endforelse
+    </div>
+    <!-- end Mobile Card -->
 @endsection

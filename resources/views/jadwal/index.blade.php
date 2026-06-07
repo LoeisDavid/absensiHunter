@@ -90,7 +90,7 @@
     <!-- end Header -->
 
     <!-- Table -->
-    <div class="w-full mt-8 bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm font-title flex flex-col items-center">
+    <div class="hidden lg:flex w-full mt-8 bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm font-title flex-col items-center">
         <table class="w-full border-collapse text-center mt-4">
             <thead>
                 <tr class="text-gray-900">
@@ -168,4 +168,52 @@
             </a>
         </div>
     </div>
+
+    <!-- Mobile Card -->
+    <div class="lg:hidden mt-8 space-y-4 w-full">
+        @forelse ($schedules as $row)
+        <div class="bg-white rounded-2xl shadow-sm p-4 border border-gray-150 space-y-3 font-title">
+            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+                <span class="font-bold text-sm text-gray-900">{{ $row['kegiatan'] }}</span>
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-md border
+                    @if ($row['status'] === 'Berlangsung') bg-blue-50 text-blue-700 border-blue-200
+                    @elseif ($row['status'] === 'Selesai') bg-green-50 text-green-700 border-green-200
+                    @else bg-gray-50 text-gray-500 border-gray-200
+                    @endif">
+                    {{ $row['status'] }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                <div>
+                    <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Tanggal</p>
+                    <p class="mt-0.5 text-gray-800 font-semibold text-[11px]">{{ \Carbon\Carbon::parse($row['tanggal'])->translatedFormat('d M Y') }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-400 font-semibold uppercase tracking-wider text-[10px]">Peran / Total Hadir</p>
+                    <p class="mt-0.5 text-gray-800 font-semibold text-[11px] capitalize">{{ $row['role'] === 'pengurus' ? 'Panitia' : 'Peserta' }} ({{ $row['total_hadir'] }})</p>
+                </div>
+            </div>
+
+            @if ($row['status'] !== 'Segera')
+            <div class="pt-2">
+                <a href="{{ route('jadwal.show', $row['id']) }}" class="block w-full text-center py-2 bg-graphite/75 text-white rounded-xl font-bold text-sm shadow-sm transition hover:bg-graphite">
+                    Detail
+                </a>
+            </div>
+            @else
+            <div class="pt-2">
+                <button disabled class="w-full text-center py-2 border-2 border-gray-200 text-gray-300 rounded-xl font-bold text-sm bg-white cursor-not-allowed">
+                    Detail
+                </button>
+            </div>
+            @endif
+        </div>
+        @empty
+        <div class="bg-white rounded-2xl shadow-sm p-6 text-center font-body text-body-text">
+            Belum ada jadwal terdaftar.
+        </div>
+        @endforelse
+    </div>
+    <!-- end Mobile Card -->
 @endsection
