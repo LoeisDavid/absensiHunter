@@ -1,70 +1,90 @@
 <!-- Header -->
     <header class="flex items-center justify-between font-title sm:px-5 relative z-30">
 
-        <div class="flex items-center gap-2 sm:gap-4 text-logo">
+        <div class="flex items-center gap-2 sm:gap-4 text-logo dark:text-white">
             <img
                 src="{{ asset('img/logo/logo_tanpa_nama.png') }}"
                 alt="Logo"
-                class="w-14 h-14 sm:w-24 sm:h-24 object-contain"
+                class="w-14 h-14 md:w-20 md:h-20 xl:w-24 xl:h-24 object-contain"
             >
             <div>
-                <h1 class="text-lg sm:text-3xl font-hunter tracking-wide text-center">
+                <h1 class="text-lg md:text-2xl xl:text-3xl font-hunter tracking-wide text-center">
                     HUNTER
                 </h1>
-                <p class="text-sm sm:text-lg font-community tracking-widest">
+                <p class="text-sm md:text-base xl:text-lg font-community tracking-widest">
                     COMMUNITY
                 </p>
             </div>
         </div>
 
-        <div class="hidden lg:flex items-center font-title gap-6 xl:gap-12 font-bold text-base xl:text-lg">
-            <a href="{{ route('dashboard') }}" class="relative py-2">
+        <div class="hidden lg:flex items-center font-title lg:gap-4 xl:gap-12 font-bold lg:text-md xl:text-lg text-body-text dark:text-[#E0E0E0]">
+            <a href="{{ route('dashboard') }}" class="relative py-2 hover:text-black hover:dark:text-white transition-colors">
                 Beranda
                 @if(request()->routeIs('dashboard'))
-                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                 @endif
             </a>
             
             @php
                 $isHadir = request()->routeIs(['absensi.peserta', 'absensi.pengurus']);
             @endphp
-            <a href="{{ route('absensi.peserta') }}" class="relative py-2">
+            <a href="{{ route('absensi.peserta') }}" class="relative py-2 hover:text-black hover:dark:text-white transition-colors">
                 Hadir
                 @if($isHadir)
-                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                 @endif
             </a>
             
-            <a href="{{ route('jadwal.index') }}" class="relative py-2">
+            <a href="{{ route('jadwal.index') }}" class="relative py-2 hover:text-black hover:dark:text-white transition-colors">
                 Jadwal
                 @if(request()->routeIs('jadwal.index'))
-                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                 @endif
             </a>
             
             @php
                 $isMember = request()->routeIs(['member.index', 'member.peserta', 'member.pengurus', 'member.show']);
             @endphp
-            <a href="{{ route('member.index') }}" class="relative py-2">
+            <a href="{{ route('member.index') }}" class="relative py-2 hover:text-black hover:dark:text-white transition-colors">
                 Anggota
                 @if($isMember)
-                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                 @endif
             </a>
             
-            <a href="{{ route('detail.index') }}" class="relative py-2">
+            <a href="{{ route('detail.index') }}" class="relative py-2 hover:text-black hover:dark:text-white transition-colors">
                 Detail
                 @if(request()->routeIs('detail.index'))
-                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                 @endif
             </a>
         </div>
 
         <div class="flex items-center font-body">
             <div class="hidden lg:flex items-center gap-2 sm:gap-4">
-                <a href="{{ route('scan') }}" class="shadow-md border-3 p-2 sm:px-6 sm:py-1 sm:bg-transparent sm:shadow-none text-graphite hover:text-[#4d4d4d] transition inline-flex items-center gap-2 font-bold font-title rounded-r-lg rounded-bl-lg text-lg">
+                <!-- Theme Toggle Desktop -->
+                <button id="theme-toggle-desktop" class="bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors p-2.5 rounded-xl shadow-sm text-body-text dark:text-white cursor-pointer mr-2 flex items-center justify-center">
+                    <!-- Sun icon -->
+                    <svg id="theme-toggle-light-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <!-- Moon icon -->
+                    <svg id="theme-toggle-dark-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                <a href="{{ route('scan') }}" class="shadow-md border-3 p-2 xl:px-6 lg:px-3 lg:py-2 sm:bg-transparent sm:shadow-none text-graphite hover:text-[#4d4d4d] dark:text-[#E0E0E0] dark:hover:text-white dark:border-white/20 transition inline-flex items-center gap-2 font-bold font-title rounded-r-lg rounded-bl-lg lg:text-base xl:text-lg">
                     <span>Scan</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 shrink-0" viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="xl:w-8 xl:h-8 w-6 h-6 shrink-0" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path fill="currentColor" d="M9.5 6.5v3h-3v-3zM11 5H5v6h6zm-1.5 9.5v3h-3v-3zM11 13H5v6h6zm6.5-6.5v3h-3v-3zM19 5h-6v6h6zm-6 8h1.5v1.5H13zm1.5 1.5H16V16h-1.5zM16 13h1.5v1.5H16zm-3 3h1.5v1.5H13zm1.5 1.5H16V19h-1.5zM16 16h1.5v1.5H16zm1.5-1.5H19V16h-1.5zm0 3H19V19h-1.5zM22 7h-2V4h-3V2h5zm0 15v-5h-2v3h-3v2zM2 22h5v-2H4v-3H2zM2 2v5h2V4h3V2z" />
                     </svg>
@@ -73,9 +93,9 @@
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"
-                        class="bg-graphite hover:bg-[#4d4d4d] transition text-white p-2 sm:px-6 sm:py-3 rounded-r-lg rounded-bl-lg shadow-sm font-bold cursor-pointer inline-flex items-center gap-2">
-                        <span class="hidden sm:block font-bold">Log out</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0" viewBox="0 0 24 24">
+                        class="bg-graphite hover:bg-[#4d4d4d] dark:bg-slate-800 dark:hover:bg-slate-700 transition text-white p-2 xl:px-6 lg:px-3 lg:py-2 rounded-r-lg rounded-bl-lg shadow-sm lg:font-semibold xl:font-bold cursor-pointer inline-flex items-center gap-2 lg:text-base xl:text-lg font-title">
+                        <span>Log out</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="xl:w-6 xl:h-6 w-4 h-4 shrink-0" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none" />
                             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                 <path d="M14 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-2" />
@@ -85,8 +105,8 @@
                     </button>
                 </form>
             </div>
-            <div class="lg:hidden">
-                <button id="mobile-menu-button" class="text-white bg-graphite p-2 rounded-lg cursor-pointer hover:bg-[#4d4d4d] transition-colors">
+            <div class="lg:hidden flex items-center gap-2">
+                <button id="mobile-menu-button" class="text-white bg-graphite dark:bg-slate-800 p-2 rounded-lg cursor-pointer hover:bg-[#4d4d4d] dark:hover:bg-slate-700 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -99,50 +119,59 @@
 <!-- Mobile Sidebar -->
     <div id="mobile-overlay" class="hidden fixed inset-0 bg-body-text/75/20 backdrop-blur-xs z-40 transition-opacity duration-300 opacity-0"></div>
 
-    <div id="mobile-sidebar" class="fixed top-0 right-0 h-full w-70 bg-whitesmoke border-l border-gray-200 z-50 p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-in-out font-title">
+    <div id="mobile-sidebar" class="fixed top-0 right-0 h-full w-70 bg-whitesmoke dark:bg-[#1A1A1A] border-l border-gray-200 dark:border-white/10 z-50 p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-in-out font-title">
         
         <div class="flex flex-col gap-8">
-            <a href="{{ route('scan') }}" class="w-full flex items-center justify-center gap-4 py-2.5 border-2 border-black rounded-xl bg-transparent text-gray-900 font-bold text-base transition hover:bg-gray-100">
+            <a href="{{ route('scan') }}" class="w-full flex items-center justify-center gap-4 py-2.5 border-2 border-black dark:border-white/20 rounded-xl bg-transparent text-gray-900 dark:text-white font-bold text-base transition hover:bg-gray-100 dark:hover:bg-white/5">
                 <span>Scan</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0 text-black" viewBox="0 0 24 24">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 shrink-0 text-black dark:text-white" viewBox="0 0 24 24">
                     <path d="M0 0h24v24H0z" fill="none" />
                     <path fill="currentColor" d="M9.5 6.5v3h-3v-3zM11 5H5v6h6zm-1.5 9.5v3h-3v-3zM11 13H5v6h6zm6.5-6.5v3h-3v-3zM19 5h-6v6h6zm-6 8h1.5v1.5H13zm1.5 1.5H16V16h-1.5zM16 13h1.5v1.5H16zm-3 3h1.5v1.5H13zm1.5 1.5H16V19h-1.5zM16 16h1.5v1.5H16zm1.5-1.5H19V16h-1.5zm0 3H19V19h-1.5zM22 7h-2V4h-3V2h5zm0 15v-5h-2v3h-3v2zM2 22h5v-2H4v-3H2zM2 2v5h2V4h3V2z" />
                 </svg>
             </a>
 
-            <div class="flex flex-col gap-6 font-bold text-lg text-body-text pl-2">
+            <!-- Theme Toggle Mobile -->
+            <button id="theme-toggle-mobile" class="w-full flex items-center justify-center gap-4 py-2.5 border-2 border-black dark:border-white/20 rounded-xl bg-transparent text-gray-900 dark:text-white font-bold text-base transition hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer">
+                <span id="theme-toggle-mobile-text">Dark Mode</span>
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path id="theme-toggle-mobile-sun-path" class="hidden" stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                    <path id="theme-toggle-mobile-moon-path" class="hidden" stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+
+            <div class="flex flex-col gap-6 font-bold text-lg text-body-text dark:text-[#E0E0E0] pl-2">
                 <a href="{{ route('dashboard') }}" class="relative self-start py-1">
                     Home
                     @if(request()->routeIs('dashboard'))
-                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                     @endif
                 </a>
 
                 <a href="{{ route('absensi.peserta') }}" class="relative self-start py-1">
                     Hadir
                     @if($isHadir)
-                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                     @endif
                 </a>
 
                 <a href="{{ route('jadwal.index') }}" class="relative self-start py-1">
                     Jadwal
                     @if(request()->routeIs('jadwal.index'))
-                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                     @endif
                 </a>
 
                 <a href="{{ route('member.index') }}" class="relative self-start py-1">
                     Anggota
                     @if($isMember)
-                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                     @endif
                 </a>
 
                 <a href="{{ route('detail.index') }}" class="relative self-start py-1">
                     Rincian
                     @if(request()->routeIs('detail.index'))
-                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 rounded-full"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-0.75 bg-body-text/75 dark:bg-white/75 rounded-full"></div>
                     @endif
                 </a>
             </div>
@@ -150,7 +179,7 @@
 
         <form action="{{ route('logout') }}" method="POST" class="w-full">
             @csrf
-            <button type="submit" class="w-full bg-[#333333] hover:bg-body-text/75 transition text-white py-3 rounded-xl shadow-xs font-bold cursor-pointer flex items-center justify-center gap-3 text-base">
+            <button type="submit" class="w-full bg-[#333333] dark:bg-slate-800 dark:hover:bg-slate-700 hover:bg-body-text/75 transition text-white py-3 rounded-xl shadow-xs font-bold cursor-pointer flex items-center justify-center gap-3 text-base">
                 <span>Log out</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0 text-white" viewBox="0 0 24 24">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -185,7 +214,54 @@
             }, 300);
         }
 
-        menuBtn.addEventListener('click', openSidebar);
-        overlay.addEventListener('click', closeSidebar);
+        if (menuBtn) menuBtn.addEventListener('click', openSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+
+        // Theme Toggle Logic
+        const desktopToggle = document.getElementById('theme-toggle-desktop');
+        const mobileToggle = document.getElementById('theme-toggle-mobile');
+        
+        const desktopLightIcon = document.getElementById('theme-toggle-light-icon');
+        const desktopDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        
+        const mobileText = document.getElementById('theme-toggle-mobile-text');
+        const mobileSunPath = document.getElementById('theme-toggle-mobile-sun-path');
+        const mobileMoonPath = document.getElementById('theme-toggle-mobile-moon-path');
+
+        function updateUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (isDark) {
+                if (desktopLightIcon) desktopLightIcon.classList.remove('hidden');
+                if (desktopDarkIcon) desktopDarkIcon.classList.add('hidden');
+                
+                if (mobileText) mobileText.textContent = 'Light Mode';
+                if (mobileSunPath) mobileSunPath.classList.remove('hidden');
+                if (mobileMoonPath) mobileMoonPath.classList.add('hidden');
+            } else {
+                if (desktopLightIcon) desktopLightIcon.classList.add('hidden');
+                if (desktopDarkIcon) desktopDarkIcon.classList.remove('hidden');
+                
+                if (mobileText) mobileText.textContent = 'Dark Mode';
+                if (mobileSunPath) mobileSunPath.classList.add('hidden');
+                if (mobileMoonPath) mobileMoonPath.classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateUI();
+        }
+
+        if (desktopToggle) desktopToggle.addEventListener('click', toggleTheme);
+        if (mobileToggle) mobileToggle.addEventListener('click', toggleTheme);
+
+        updateUI();
     });
 </script>

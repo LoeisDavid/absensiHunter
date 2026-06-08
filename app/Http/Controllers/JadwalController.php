@@ -59,7 +59,20 @@ class JadwalController extends Controller
             return strtotime($b['tanggal']) - strtotime($a['tanggal']);
         });
 
-        return view('jadwal.index', compact('schedules'));
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5;
+        $currentItems = array_slice($schedules, ($currentPage - 1) * $perPage, $perPage);
+
+        $paginatedSchedules = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentItems,
+            count($schedules),
+            $perPage,
+            $currentPage,
+            ['path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath()]
+        );
+        $paginatedSchedules->withQueryString();
+
+        return view('jadwal.index', ['schedules' => $paginatedSchedules]);
     }
 
     public function store(Request $request)

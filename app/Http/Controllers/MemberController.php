@@ -74,21 +74,21 @@ class MemberController extends Controller
             }
         }
 
-        $jumlahHadir = count($memberAbsensi);
+        $totalAbsenCount = count($memberAbsensi);
         $jadwalHadir = count($roleJadwal);
         $absensiDates = array_column($memberAbsensi, 'tanggal');
         
         $tidakHadir = 0;
-        $totalScheduledAttended = 0;
+        $jumlahHadir = 0; // Hanya menghitung kehadiran yang sesuai jadwal
         foreach ($roleJadwal as $j) {
             if (in_array($j['tanggal'], $absensiDates)) {
-                $totalScheduledAttended++;
+                $jumlahHadir++;
             } else {
                 $tidakHadir++;
             }
         }
 
-        $extraHadir = max(0, $jumlahHadir - $totalScheduledAttended);
+        $extraHadir = max(0, $totalAbsenCount - $jumlahHadir);
 
         $rincian = [];
         foreach ($memberAbsensi as $absen) {
