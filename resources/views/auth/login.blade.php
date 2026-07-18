@@ -1,113 +1,130 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Absensi Hunter</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Login Admin</title>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        (function () {
+            function applyAntiZoom() {
+                var ratio = window.outerWidth / window.innerWidth;
+                if (!ratio || !isFinite(ratio) || ratio <= 0) ratio = 1;
+                var body = document.body;
+                body.style.transform = 'scale(' + (1 / ratio) + ')';
+                body.style.transformOrigin = 'top left';
+                body.style.width = (ratio * 100) + '%';
+                body.style.minHeight = (ratio * 100) + 'vh';
+                body.style.overflowX = 'hidden';
+            }
+            applyAntiZoom();
+            window.addEventListener('resize', applyAntiZoom);
+        })();
+    </script>
 </head>
-<body class="font-sans min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center p-4">
+<body class="bg-cover bg-center bg-no-repeat min-h-dvh
+    bg-[url('/public/img/login/background_mobile.png')]
+    lg:bg-[url('/public/img/login/background.png')]
+">
+    <main class="grid lg:grid-cols-2 min-h-screen">
 
-    <div class="w-full max-w-sm sm:max-w-md">
+        <!-- MOBILE LOGO -->
+        <div class="lg:hidden flex items-center justify-end mx-4">
 
-        {{-- Logo & Branding --}}
-        <div class="flex flex-col items-center mb-8">
-            <div class="mb-4">
-                <svg width="56" height="56" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="20,2 38,32 2,32" fill="#3b82f6" opacity="0.12"/>
-                    <polygon points="20,5 10,30 20,25" fill="#ef4444"/>
-                    <polygon points="20,5 30,30 20,25" fill="#22c55e"/>
-                    <polygon points="10,30 30,30 20,25" fill="#3b82f6"/>
-                </svg>
+            <div class="w-20 h-20 bg-white dark:bg-[#1e1e1e] dark:border dark:border-white/5 rounded-full shadow-xl flex items-center justify-center">
+
+                <img
+                    src="{{ asset('img/logo/logo_nama.png') }}"
+                    alt="Logo"
+                    class="w-12 object-contain"
+                >
+
             </div>
-            <h1 class="text-2xl font-bold text-slate-800 tracking-tight">HUNTER</h1>
-            <p class="text-xs text-slate-400 tracking-[0.3em] font-medium">COMMUNITY</p>
-            <p class="mt-3 text-slate-500 text-sm">Sistem Absensi Digital</p>
+
         </div>
 
-        {{-- Card --}}
-        <div class="bg-white rounded-2xl shadow-xl shadow-blue-100/50 border border-slate-100 p-6 sm:p-8">
-
-            <h2 class="text-xl font-bold text-slate-800 mb-1">Selamat Datang</h2>
-            <p class="text-slate-500 text-sm mb-6">Masuk ke panel admin absensi</p>
-
-            {{-- Alert Error --}}
-            @if(session('error'))
-            <div class="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-5 text-sm">
-                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                </svg>
-                <span>{{ session('error') }}</span>
+        <!-- LEFT -->
+        <section class="hidden lg:flex items-center justify-center">
+            <!-- Logo Circle -->
+            <div class="bg-white dark:bg-[#1e1e1e] dark:border dark:border-white/5 rounded-full shadow-xl flex items-center justify-center" style="width: 450px; height: 450px;">
+                <img
+                    src="{{ asset('img/logo/logo_nama.png') }}"
+                    alt="Logo"
+                    class="w-72 object-contain"
+                >
             </div>
-            @endif
+        </section>
+        
+        <!-- Right -->
+        <section class="flex items-center justify-center p-4 lg:mr-5 lg:p-8">
+            <!-- Card -->
+            <div class="max-w-md lg:max-w-2xl w-full rounded-2xl bg-[#FAFAFA] dark:bg-[#1e1e1e] dark:border dark:border-white/5 shadow-lg p-8 lg:p-16">
+                <!-- Header -->
+                <div class="font-title">
 
-            {{-- Form --}}
-            <form action="{{ route('login.post') }}" method="POST" class="space-y-5">
-                @csrf
+                    <h1 class="text-2xl lg:text-4xl font-bold text-font1 dark:text-white">
+                        LOGIN ADMIN
+                    </h1>
 
-                <div>
-                    <label for="username" class="block text-sm font-medium text-slate-700 mb-1.5">Username</label>
-                    <input
-                        type="text" id="username" name="username"
-                        value="{{ old('username') }}"
-                        placeholder="Masukkan username"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm
-                               placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                               transition-all @error('username') border-red-400 bg-red-50 @enderror"
-                        required autofocus>
-                    @error('username')
-                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
+                    <p class="text-[#D91E2E] text-md lg:text-2xl mt-2 font-semibold lg:mt-6 opacity-75">
+                        Hunter Attendance System
+                    </p>
+
                 </div>
 
-                <div>
-                    <label for="password" class="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
-                    <div class="relative">
+                <!-- Form -->
+                <form class="mt-8 lg:mt-16 lg:p-8 space-y-6" action="{{ route('login.post') }}" method="post">
+                    @csrf
+                    <!-- Username -->
+                    <div>
+                        <label class="block text-base lg:text-lg font-semibold text-font1 dark:text-white mb-4 font-title" for="username">
+                            Your Username
+                        </label>
                         <input
-                            type="password" id="password" name="password"
-                            placeholder="Masukkan password"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm
-                                   placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                   transition-all pr-11 @error('password') border-red-400 bg-red-50 @enderror"
-                            required>
-                        <button type="button" id="togglePassword"
-                                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
-                            <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                            </svg>
+                            type="text"
+                            class="w-full border-2 border-black dark:border-white/20 rounded-2xl px-4 py-3 text-xs lg:px-5 lg:py-4 lg:text-md outline-none bg-[#F5F5F5] dark:bg-[#252525] dark:text-white font-body"
+                            placeholder="Input username"
+                            name="username" id="username"
+                            value="{{ old('username') }}"
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-base lg:text-lg font-semibold text-font1 dark:text-white mb-4 font-title" for="password">
+                            Your Password
+                        </label>
+                        <input
+                            type="password"
+                            class="w-full border-2 border-black dark:border-white/20 rounded-2xl px-4 py-3 text-xs lg:px-5 lg:py-4 lg:text-md outline-none bg-[#F5F5F5] dark:bg-[#252525] dark:text-white font-body"
+                            placeholder="Input password"
+                            name="password" id="password"
+                            value="{{ old('password') }}"
+                        >
+                    </div>
+
+                    <!-- Button -->
+                    <div class="flex justify-center pt-3 lg:pt-10 font-title">
+                        <button
+                            class="bg-[#363636] hover:bg-[#4d4d4d] dark:bg-[#D91E2E] dark:hover:bg-[#ff384b] transition text-white text-base lg:text-lg font-semibold px-14 py-2 lg:px-20 lg:py-2 rounded-2xl"
+                            type="submit"
+                        >
+                            Login
                         </button>
                     </div>
-                    @error('password')
-                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <button type="submit"
-                        class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold
-                               py-3 px-4 rounded-xl transition-all shadow-md shadow-blue-200 hover:shadow-lg hover:shadow-blue-300
-                               flex items-center justify-center gap-2 text-sm mt-2">
-                    Masuk
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                    </svg>
-                </button>
-            </form>
-        </div>
-
-        <p class="text-center text-xs text-slate-400 mt-6">© {{ date('Y') }} Hunter Community</p>
-    </div>
-
-    <script>
-        const toggleBtn = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
-        toggleBtn.addEventListener('click', () => {
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-        });
-    </script>
+                </form>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

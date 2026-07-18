@@ -17,38 +17,113 @@ class DashboardController extends Controller
             $anggotaModel = new AnggotaModel();
 
             /**
-             * SEBELUM: 5 API calls sequential (countByRole×2 + getRecent×2 + batchGet)
-             * SEKARANG: 2 API calls total:
-             *   1. getForDashboard → 1 API call (seluruh absensi, proses di PHP)
-             *   2. findByIds       → 1 batchGet (semua anggota sekaligus)
+             * ============================================================
+             * DATA ANGGOTA TERDAFTAR
+             * ============================================================
              *
-             * + Cache 30 detik agar refresh cepat
+             * Ini mengambil data dari sheet "anggota".
+             * Data ini dipakai untuk:
+             * - total peserta terdaftar
+             * - total pengurus terdaftar
+             *
+             * Ini BUKAN data absensi.
              */
-            $dashData = Cache::remember("dashboard_{$today}", 30, function () use ($absensiModel, $today) {
-                return $absensiModel->getForDashboard($today, 5);
+            $all_peserta = $anggotaModel->getAllPeserta();
+            $all_pengurus = $anggotaModel->getAllPengurus();
+
+            /**
+             * Counts untuk dashboard.
+             *
+             * Penting:
+             * counts ini berdasarkan anggota yang TERDAFTAR,
+             * bukan berdasarkan yang absen.
+             */
+            $counts = [
+                'peserta'  => count($all_peserta),
+                'pengurus' => count($all_pengurus),
+            ];
+
+            /**
+             * ============================================================
+             * DATA ABSENSI HARI INI / RECENT
+             * ============================================================
+             *
+             * Ini mengambil data dari sheet "absensi".
+             * Data ini hanya dipakai untuk menampilkan daftar recent absensi.
+             */
+            $dashData = Cache::remember("dashboard_absensi_{$today}", 30, function () use ($absensiModel, $today) {
+                /**
+                 * Ambil lebih dari 5 supaya setelah dipisah role,
+                 * peserta dan pengurus tetap punya kemungkinan dapat 5 data.
+                 */
+                return $absensiModel->getForDashboard($today, 20);
             });
 
-            $counts = $dashData['counts'];
-            $recent = $dashData['recent'];
+            $recent = $dashData['recent'] ?? [];
 
-            // Batch JOIN dengan anggota (cached per anggota)
+            /**
+             * Ambil anggota_id dari recent absensi.
+             */
             $anggotaIds = array_unique(array_filter(array_column($recent, 'anggota_id')));
+
+            /**
+             * Join data absensi dengan data anggota.
+             */
             $anggotaMap = $anggotaModel->findByIds(array_values($anggotaIds));
 
             $recentList = array_map(function ($absen) use ($anggotaMap) {
-                $anggota = $anggotaMap[$absen['anggota_id']] ?? null;
+                $anggotaId = $absen['anggota_id'] ?? null;
+                $anggota = $anggotaMap[$anggotaId] ?? null;
+
                 return [
                     'nama'         => $anggota['nama'] ?? 'Unknown',
-                    'role'         => $absen['role'],
-                    'waktu_datang' => $absen['waktu_datang'],
+                    'role'         => strtolower(trim($absen['role'] ?? ($anggota['role'] ?? ''))),
+                    'waktu_datang' => $absen['waktu_datang'] ?? '',
+                    'photo'        => $anggota['photo'] ?? null,
                 ];
             }, $recent);
 
+            /**
+             * Pisahkan recent absensi berdasarkan role.
+             *
+             * Ini adalah data yang absen / recent,
+             * bukan semua anggota terdaftar.
+             */
+            $recentPeserta = array_values(array_filter($recentList, function ($item) {
+                return strtolower(trim($item['role'] ?? '')) === 'peserta';
+            }));
+
+            $recentPengurus = array_values(array_filter($recentList, function ($item) {
+                return strtolower(trim($item['role'] ?? '')) === 'pengurus';
+            }));
+
+            $counts     = ['peserta' => count($recentPeserta), 'pengurus' => count($recentPengurus)];
+
+            /**
+             * Limit tampilan recent absensi.
+             */
+            $recentPeserta = array_slice($recentPeserta, 0, 5);
+            $recentPengurus = array_slice($recentPengurus, 0, 5);
+
         } catch (\Exception $e) {
-            $counts     = ['peserta' => 0, 'pengurus' => 0];
-            $recentList = [];
+            $counts = [
+                'peserta'  => 0,
+                'pengurus' => 0,
+            ];
+
+            $all_peserta = [];
+            $all_pengurus = [];
+
+            $recentPeserta = [];
+            $recentPengurus = [];
         }
 
-        return view('dashboard.index', compact('counts', 'recentList'));
+        return view('dashboard.index', compact(
+            'counts',
+            'all_peserta',
+            'all_pengurus',
+            'recentPeserta',
+            'recentPengurus'
+        ));
     }
 }

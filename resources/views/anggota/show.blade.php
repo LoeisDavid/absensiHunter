@@ -33,17 +33,17 @@
         <div class="w-full max-w-sm sm:max-w-md">
 
             {{-- Card --}}
-            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-white dark:bg-[#1e1e1e] dark:border dark:border-white/5 rounded-2xl shadow-2xl overflow-hidden">
 
                 {{-- Success Header --}}
                 <div class="px-6 pt-8 pb-5 text-center">
                     {{-- Checkmark Icon --}}
-                    <div class="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-200">
+                    <div class="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-200 dark:shadow-green-950/20">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                         </svg>
                     </div>
-                    <h2 class="text-xl font-bold text-green-600">
+                    <h2 class="text-xl font-bold text-green-600 dark:text-green-400">
                         {{ $status === 'pulang' ? 'Absen Pulang Berhasil' : 'Absen Berhasil' }}
                     </h2>
                 </div>
@@ -51,9 +51,9 @@
                 <div class="px-6 pb-8">
                     {{-- Divider with label --}}
                     <div class="flex items-center gap-3 mb-5">
-                        <div class="h-px flex-1 bg-slate-200"></div>
-                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Data Diri Peserta</span>
-                        <div class="h-px flex-1 bg-slate-200"></div>
+                        <div class="h-px flex-1 bg-slate-200 dark:bg-white/10"></div>
+                        <span class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Data Diri Peserta</span>
+                        <div class="h-px flex-1 bg-slate-200 dark:bg-white/10"></div>
                     </div>
 
                     {{-- Data Rows --}}
@@ -72,10 +72,10 @@
                         @endphp
 
                         @foreach($fields as $label => $value)
-                        <div class="flex items-center justify-between py-2.5 border-b border-slate-100 last:border-0">
-                            <span class="text-sm text-slate-600 font-medium w-28 flex-shrink-0">{{ $label }}</span>
-                            <span class="text-sm text-slate-400 flex-shrink-0 mx-2">:</span>
-                            <span class="text-sm text-slate-800 font-semibold text-right">{{ $value }}</span>
+                        <div class="flex items-center justify-between py-2.5 border-b border-slate-100 dark:border-white/5 last:border-0">
+                            <span class="text-sm text-slate-600 dark:text-slate-400 font-medium w-28 flex-shrink-0">{{ $label }}</span>
+                            <span class="text-sm text-slate-400 dark:text-slate-600 flex-shrink-0 mx-2">:</span>
+                            <span class="text-sm text-slate-800 dark:text-white font-semibold text-right">{{ $value }}</span>
                         </div>
                         @endforeach
                     </div>
@@ -83,14 +83,14 @@
                     {{-- Action Buttons --}}
                     <div class="mt-6 flex gap-3">
                         <a href="{{ route('scan') }}"
-                           class="flex-1 flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold py-3 rounded-xl transition-all">
+                           class="flex-1 flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 text-white text-sm font-semibold py-3 rounded-xl transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
                             </svg>
                             Scan Lagi
                         </a>
                         <a href="{{ route('dashboard') }}"
-                           class="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 rounded-xl transition-all">
+                           class="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white text-sm font-semibold py-3 rounded-xl transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                             </svg>

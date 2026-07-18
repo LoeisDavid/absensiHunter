@@ -2,12 +2,35 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Scan - Absensi Hunter')</title>
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        (function () {
+            function applyAntiZoom() {
+                var ratio = window.outerWidth / window.innerWidth;
+                if (!ratio || !isFinite(ratio) || ratio <= 0) ratio = 1;
+                var body = document.body;
+                body.style.transform = 'scale(' + (1 / ratio) + ')';
+                body.style.transformOrigin = 'top left';
+                body.style.width = (ratio * 100) + '%';
+                body.style.minHeight = (ratio * 100) + 'vh';
+                body.style.overflowX = 'hidden';
+            }
+            applyAntiZoom();
+            window.addEventListener('resize', applyAntiZoom);
+        })();
+    </script>
     @stack('head')
 </head>
 <body class="bg-black font-sans min-h-screen flex flex-col">

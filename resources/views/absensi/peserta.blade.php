@@ -1,134 +1,307 @@
 @extends('layouts.app')
-
-@section('title', 'Tabel Absensi Peserta — Hunter')
+@section('title', 'Tabel Absensi Peserta')
 
 @section('content')
+<div class="flex flex-col gap-6">
+        <!-- Back + Title -->
+        <div class="flex items-center gap-3 sm:gap-6 font-title">
 
-{{-- Header --}}
-<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-    <div>
-        <div class="flex items-center gap-2 text-sm text-slate-500 mb-1">
-            <a href="{{ route('dashboard') }}" class="hover:text-blue-600 transition-colors">Dashboard</a>
-            <span>/</span>
-            <span class="text-slate-800 font-medium">Peserta</span>
+            <!-- Title -->
+            <h1 class="text-xl sm:text-2xl font-bold text-body-text dark:text-white px-6">
+                Data Peserta
+            </h1>
+
         </div>
-        <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Absensi Peserta</h1>
-        <p class="text-slate-500 text-sm mt-1">Rekap kehadiran seluruh peserta</p>
-    </div>
-    <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg text-sm font-medium">
-            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-            {{ count($data) }} record
-        </span>
-    </div>
+
+
+        <!-- Tabs -->
+        <div class="flex items-center font-title w-fit overflow-hidden rounded-2xl shadow-sm border border-gray-200 dark:border-white/10 sm:mt-2">
+
+            <!-- Peserta -->
+            <a
+                href="#"
+                class="px-5 py-2 sm:px-10 sm:py-3 text-sm sm:text-xl font-bold transition bg-[#D91E2E] opacity-25 text-white pointer-events-none cursor-not-allowed"
+                disabled
+            >
+                Peserta
+            </a>
+
+            <!-- Panitia -->
+            <a
+                href="{{ route('absensi.pengurus') }}"
+                class="px-5 py-2 sm:px-10 sm:py-3 text-sm sm:text-xl font-bold transition shadow-2xl dark:text-[#E0E0E0] hover:dark:bg-white/5"
+            >
+                Panitia
+            </a>
+
+        </div>
 </div>
 
-{{-- Table Card --}}
-<div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+    <!-- Table Wrapper -->
+    <div class="hidden lg:block mt-10 bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-8">
 
-    {{-- Search/Filter Bar --}}
-    <div class="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3">
-        <input type="text" id="searchInput" placeholder="Cari nama atau NIS..."
-               class="flex-1 px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-800
-                      placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-        <div class="flex items-center gap-2 text-xs text-slate-500">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/>
-            </svg>
-            Filter aktif
+        <!-- Header -->
+        <div class="grid grid-cols-4 pb-6 border-b border-gray-200 dark:border-white/10 font-title text-body-text dark:text-white">
+
+            <div class="text-xl font-bold">
+                Nama
+            </div>
+
+            <div class="text-xl font-bold">
+                NIS
+            </div>
+
+            <div class="text-xl font-bold text-center">
+                Waktu hadir
+            </div>
+
+            <div class="text-xl font-bold text-center">
+                Waktu keluar
+            </div>
+
         </div>
-    </div>
 
-    {{-- Scrollable Table --}}
-    <div class="overflow-x-auto">
-        <table class="w-full min-w-[700px]">
-            <thead>
-                <tr class="bg-slate-50 border-b border-slate-200">
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">No</th>
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-4 py-3">Nama</th>
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-4 py-3">NIS</th>
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-4 py-3">Divisi</th>
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-4 py-3">Jabatan</th>
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-4 py-3">Tanggal</th>
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-4 py-3">Jam Masuk</th>
-                    <th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-4 py-3">Jam Pulang</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody" class="divide-y divide-slate-50">
-                @forelse($data as $i => $row)
-                <tr class="hover:bg-blue-50/40 transition-colors">
-                    <td class="px-6 py-4 text-sm text-slate-400 font-mono">{{ $i + 1 }}</td>
-                    <td class="px-4 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-xs font-bold text-blue-600">{{ strtoupper(substr($row['nama'], 0, 1)) }}</span>
-                            </div>
-                            <span class="text-sm font-semibold text-slate-800">{{ $row['nama'] }}</span>
+
+
+        <!-- Body -->
+        <div class="divide-y divide-gray-100 dark:divide-white/5">
+
+            @forelse($data as $i => $row)
+            <!-- Row -->
+            <div class="grid grid-cols-4 items-center py-5 font-body text-body-text dark:text-[#E0E0E0]">
+
+                <!-- Nama -->
+                <div class="flex items-center gap-4">
+
+                    <!-- Avatar -->
+                    @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                        <img
+                            src="{{ asset($row['photo']) }}"
+                            alt="Avatar"
+                            class="w-12 h-12 rounded-full object-cover shrink-0"
+                        >
+                    @else
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                            {{ substr($row['nama'] ?? '?', 0, 1) }}
                         </div>
-                    </td>
-                    <td class="px-4 py-4 text-sm text-slate-600 font-mono">{{ $row['nis'] }}</td>
-                    <td class="px-4 py-4 text-sm text-slate-600">{{ $row['divisi'] }}</td>
-                    <td class="px-4 py-4 text-sm text-slate-600">{{ $row['jabatan'] }}</td>
-                    <td class="px-4 py-4 text-sm text-slate-600">{{ $row['tanggal'] }}</td>
-                    <td class="px-4 py-4">
-                        <span class="inline-flex items-center gap-1.5 text-sm font-medium
-                                     {{ $row['waktu_datang'] !== '-' ? 'text-green-700' : 'text-slate-400' }}">
-                            @if($row['waktu_datang'] !== '-')
-                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                            @endif
-                            {{ $row['waktu_datang'] }}
-                        </span>
-                    </td>
-                    <td class="px-4 py-4">
-                        <span class="inline-flex items-center gap-1.5 text-sm font-medium
-                                     {{ $row['waktu_pulang'] !== '-' ? 'text-blue-700' : 'text-slate-400' }}">
-                            @if($row['waktu_pulang'] !== '-')
-                            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
-                            @endif
+                    @endif
+
+                    <!-- Info -->
+                    <div>
+
+                        <h3 class="font-semibold text-base">
+                            {{ $row['nama'] }}
+                        </h3>
+
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            {{ $row['divisi'] }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NIS -->
+                <div class="text-base font-medium">
+                    {{ $row['nis'] }}
+                </div>
+
+
+                <!-- Waktu Hadir -->
+                <div class="flex justify-center">
+
+                    <p class="block bg-[#2DA635]/25 border-3 border-[#7AC77F] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
+                        {{ $row['waktu_datang'] }}
+                    </p>
+
+                </div>
+
+
+                <!-- Waktu Keluar -->
+                <div class="flex justify-center">
+
+                    <p class="block bg-[#D91E2E]/25 border-3 border-[#EC7E8B] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
+                        {{ $row['waktu_pulang'] }}
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        @empty
+        <div class="grid grid-cols-4 items-center py-5 font-body text-body-text dark:text-[#E0E0E0]">
+            Tidak Ada Data
+        </div>
+        @endforelse
+    </div>
+    <!-- end Table Wrapper -->
+
+    <!-- Mobile Card -->
+    <div class="lg:hidden mt-8 space-y-4">
+        @forelse($data as $i => $row)
+
+        <details class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-4 group">
+
+            <!-- HEADER -->
+            <summary class="list-none cursor-pointer flex items-center justify-between">
+
+                <!-- Left -->
+                <div class="flex items-center gap-3">
+
+                    <!-- Avatar -->
+                    @if(!empty($row['photo']) && file_exists(public_path($row['photo'])))
+                        <img
+                            src="{{ asset($row['photo']) }}"
+                            alt="Avatar"
+                            class="w-12 h-12 rounded-full object-cover shrink-0"
+                        >
+                    @else
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-bold text-xl flex items-center justify-center uppercase font-title shrink-0">
+                            {{ substr($row['nama'] ?? '?', 0, 1) }}
+                        </div>
+                    @endif
+
+                    <!-- Info -->
+                    <div>
+
+                        <h3 class="font-title font-semibold text-sm dark:text-white">
+                            Nama : {{ $row['nama'] }}
+                        </h3>
+
+                        <p class="text-xs mt-1 font-body opacity-75">
+                            {{ $row['divisi'] }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Arrow -->
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6 text-gray-500 transition group-open:rotate-180"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        fill="currentColor"
+                        d="M7 10l5 5l5-5z"
+                    />
+                </svg>
+
+            </summary>
+
+
+            <!-- CONTENT -->
+            <div class="mt-5 border-t border-gray-100 dark:border-white/5 pt-4 font-body text-body-text dark:text-[#E0E0E0] space-y-4">
+
+                <!-- NIS -->
+                <div class="flex items-center justify-between text-sm opacity-75">
+
+                    <span class="font-semibold">
+                        NIS
+                    </span>
+
+                    <span>
+                        {{ $row['nis'] }}
+                    </span>
+
+                </div>
+
+
+                <!-- Waktu Hadir -->
+                <div class="flex items-center justify-between text-sm">
+
+                    <span class="font-semibold opacity-75">
+                        Waktu Hadir
+                    </span>
+
+                    <p class="bg-[#2DA635]/75 border-2 border-[#2DA635]
+                        text-white font-bold px-5 py-1 rounded-md shadow-sm text-xs">
+
+                        {{ $row['waktu_datang'] }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- Waktu Keluar -->
+                <div class="flex items-center justify-between text-sm">
+
+                    <span class="font-semibold opacity-75">
+                        Waktu Keluar
+                    </span>
+
+                    @if ($row['waktu_pulang'] === '-')
+                        <p class="bg-[#0047C5]/75 border-2 border-[#0047C5]
+                            text-white font-bold px-5 py-1 rounded-md shadow-sm text-xs">
+                            -- : --
+                        </p>
+                    @else
+                        <p class="bg-[#D91E2E]/75 border-2 border-[#D91E2E]
+                            text-white font-bold px-5 py-1 rounded-md shadow-sm text-xs">
                             {{ $row['waktu_pulang'] }}
-                        </span>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="8" class="text-center py-16">
-                        <div class="flex flex-col items-center gap-3">
-                            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">
-                                <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                            </div>
-                            <p class="text-slate-500 font-medium">Belum ada data absensi peserta</p>
-                            <a href="{{ route('scan') }}" class="text-blue-600 text-sm hover:underline">Mulai scan sekarang</a>
-                        </div>
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                        </p>
+                    @endif
 
-    {{-- Footer --}}
-    @if(count($data) > 0)
-    <div class="px-6 py-3 bg-slate-50 border-t border-slate-100">
-        <p class="text-xs text-slate-400">Menampilkan {{ count($data) }} data peserta</p>
-    </div>
-    @endif
-</div>
+                </div>
+                <!-- end Waktu Keluar -->
+            </div>
 
+        </details>
+
+        @empty
+
+        <div class="bg-white dark:bg-[#252525] dark:border dark:border-white/5 rounded-2xl shadow-sm p-6 text-center font-body text-body-text dark:text-gray-400">
+            Tidak ada data
+        </div>
+
+        @endforelse
+
+     </div>
+     <!-- end Mobile Card -->
+
+
+
+    <!-- Legend -->
+    <!-- <div class="flex flex-wrap items-center gap-16 mt-10 font-title"> -->
+        <!-- Hadir -->
+        <!-- <div class="flex items-center gap-4">
+
+            <p class="block bg-[#2DA635]/25 border-3 border-[#7AC77F] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
+                09:00
+            </p>
+            <span class="font-semibold text-body-text text-base">
+                Waktu Hadir
+            </span>
+        </div> -->
+
+
+        <!-- Keluar -->
+        <!-- <div class="flex items-center gap-4">
+            <div class="bg-[#D91E2E]/25 border-3 border-[#EC7E8B] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
+                17:00
+            </div>
+
+            <span class="font-semibold text-body-text text-base">
+                Waktu Keluar
+            </span>
+        </div> -->
+
+
+        <!-- Belum Absen -->
+        <!-- <div class="flex items-center gap-4">
+
+            <div class="bg-[#0047C5]/25 border-3 border-[#7095DC] text-white font-bold px-10 py-2 rounded-xl shadow-sm text-center text-lg">
+                -- : --
+            </div>
+
+            <span class="font-semibold text-body-text text-base">
+                Belum Absen
+            </span>
+
+        </div>
+
+    </div> -->
 @endsection
-
-@push('scripts')
-<script>
-    const searchInput = document.getElementById('searchInput');
-    const rows        = document.querySelectorAll('#tableBody tr');
-
-    searchInput.addEventListener('input', function () {
-        const q = this.value.toLowerCase().trim();
-        rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(q) ? '' : 'none';
-        });
-    });
-</script>
-@endpush
