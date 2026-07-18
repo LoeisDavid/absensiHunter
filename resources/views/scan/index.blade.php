@@ -15,10 +15,10 @@
         {{-- Logo --}}
         <div class="flex items-center gap-3">
             <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="20,2 38,32 2,32" fill="white" opacity="0.1"/>
-                <polygon points="20,5 10,30 20,25" fill="#ef4444"/>
-                <polygon points="20,5 30,30 20,25" fill="#22c55e"/>
-                <polygon points="10,30 30,30 20,25" fill="#3b82f6"/>
+                <polygon points="20,2 38,32 2,32" fill="white" opacity="0.1" />
+                <polygon points="20,5 10,30 20,25" fill="#ef4444" />
+                <polygon points="20,5 30,30 20,25" fill="#22c55e" />
+                <polygon points="10,30 30,30 20,25" fill="#3b82f6" />
             </svg>
             <div>
                 <p class="text-sm font-bold text-white leading-tight tracking-wider">HUNTER</p>
@@ -28,9 +28,9 @@
 
         {{-- Back to Dashboard --}}
         <a href="{{ route('dashboard') }}"
-           class="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors">
+            class="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             <span class="hidden sm:inline">Dashboard</span>
         </a>
@@ -59,7 +59,7 @@
 
             {{-- Scan Line Animation --}}
             <div id="scanLine" class="absolute left-3 right-3 h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent z-20 opacity-0"
-                 style="animation: scanMove 2s ease-in-out infinite; top: 12px;"></div>
+                style="animation: scanMove 2s ease-in-out infinite; top: 12px;"></div>
         </div>
 
         {{-- Instruction --}}
@@ -67,11 +67,21 @@
             Arahkan kamera ke QR Code pada kartu peserta
         </p>
 
+        {{-- Zoom Control --}}
+        <div id="zoomContainer" class="hidden mt-4 w-64 flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+            <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+            </svg>
+            <input type="range" id="zoomRange" min="1" max="5" step="0.1" value="1"
+                class="flex-1 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-blue-500 focus:outline-none">
+            <span id="zoomValue" class="text-xs text-white/50 w-8 text-right font-mono">1.0x</span>
+        </div>
+
         {{-- Loading State --}}
         <div id="loadingState" class="hidden mt-4 flex items-center gap-2 text-white/70 text-sm">
             <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
             Memproses...
         </div>
@@ -83,37 +93,61 @@
 
         {{-- Start Camera Button (fallback) --}}
         <button id="startBtn"
-                class="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition-all">
+            class="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition-all">
             Aktifkan Kamera
         </button>
     </div>
 </div>
 
 <style>
-@keyframes scanMove {
-    0%   { top: 12px; opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { top: calc(100% - 12px); opacity: 0; }
-}
-#qr-reader video { width: 100% !important; height: 100% !important; object-fit: cover; }
-#qr-reader { border: none !important; }
+    @keyframes scanMove {
+        0% {
+            top: 12px;
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 1;
+        }
+
+        90% {
+            opacity: 1;
+        }
+
+        100% {
+            top: calc(100% - 12px);
+            opacity: 0;
+        }
+    }
+
+    #qr-reader video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+    }
+
+    #qr-reader {
+        border: none !important;
+    }
 </style>
 
 @endsection
 
 @push('scripts')
 <script>
-    const csrfToken  = document.querySelector('meta[name="csrf-token"]').content;
-    const scanLine   = document.getElementById('scanLine');
-    const instruction= document.getElementById('scanInstruction');
-    const loading    = document.getElementById('loadingState');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    const scanLine = document.getElementById('scanLine');
+    const instruction = document.getElementById('scanInstruction');
+    const zoomContainer = document.getElementById('zoomContainer');
+    const zoomRange = document.getElementById('zoomRange');
+    const zoomValue = document.getElementById('zoomValue');
+    const loading = document.getElementById('loadingState');
     const errorState = document.getElementById('errorState');
-    const errorMsg   = document.getElementById('errorMsg');
-    const startBtn   = document.getElementById('startBtn');
-    const qrReader   = document.getElementById('qr-reader');
-    let   scanner    = null;
-    let   scanning   = false;
+    const errorMsg = document.getElementById('errorMsg');
+    const startBtn = document.getElementById('startBtn');
+    const qrReader = document.getElementById('qr-reader');
+    let scanner = null;
+    let scanning = false;
 
     async function onScanSuccess(decodedText) {
         if (scanning) return;
@@ -127,16 +161,18 @@
         errorState.classList.add('hidden');
 
         try {
-            const res  = await fetch('/scan/absen', {
+            const res = await fetch('/scan/absen', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'X-CSRF-TOKEN': csrfToken,
                 },
-                body: JSON.stringify({ nis: decodedText }),
+                body: JSON.stringify({
+                    nis: decodedText
+                }),
             });
-            
+
             // Cek apakah response berupa JSON
             const contentType = res.headers.get("content-type");
             if (!contentType || !contentType.includes("application/json")) {
@@ -165,25 +201,89 @@
             loading.classList.add('hidden');
             instruction.textContent = 'Arahkan kamera ke QR Code pada kartu peserta';
             scanning = false;
-            setTimeout(() => { errorState.classList.add('hidden'); if (scanner) scanner.resume(); }, 5000);
+            setTimeout(() => {
+                errorState.classList.add('hidden');
+                if (scanner) scanner.resume();
+            }, 5000);
         }
     }
 
     function startScanner() {
         startBtn.classList.add('hidden');
         scanner = new Html5Qrcode('qr-reader');
-        scanner.start(
-            { facingMode: 'environment' },
-            { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 },
+        scanner.start({
+                facingMode: 'environment'
+            }, {
+                fps: 10,
+                qrbox: {
+                    width: 250,
+                    height: 250
+                },
+                aspectRatio: 1.0
+            },
             onScanSuccess,
             () => {}
         ).then(() => {
             qrReader.style.opacity = '1';
             scanLine.style.opacity = '1';
+
+            // Setup camera zoom
+            let isHardwareZoom = false;
+            try {
+                const capabilities = scanner.getRunningTrackCapabilities();
+                if (capabilities.zoom) {
+                    isHardwareZoom = true;
+                    zoomRange.min = capabilities.zoom.min || 1;
+                    zoomRange.max = capabilities.zoom.max || 5;
+                    zoomRange.step = capabilities.zoom.step || 0.1;
+                    zoomRange.value = capabilities.zoom.min || 1;
+                } else {
+                    // Fallback to CSS digital zoom
+                    zoomRange.min = 1;
+                    zoomRange.max = 5;
+                    zoomRange.step = 0.1;
+                    zoomRange.value = 1;
+                }
+            } catch (err) {
+                console.warn("Could not get track capabilities, using CSS zoom fallback:", err);
+                zoomRange.min = 1;
+                zoomRange.max = 3;
+                zoomRange.step = 0.1;
+                zoomRange.value = 1;
+            }
+
+            // Always show zoom slider when camera is active
+            zoomContainer.classList.remove('hidden');
+            zoomValue.textContent = Number(zoomRange.value).toFixed(1) + 'x';
+
+            zoomRange.oninput = async function() {
+                const val = parseFloat(this.value);
+                zoomValue.textContent = val.toFixed(1) + 'x';
+                if (isHardwareZoom) {
+                    try {
+                        await scanner.applyVideoConstraints({
+                            advanced: [{
+                                zoom: val
+                            }]
+                        });
+                    } catch (e) {
+                        console.error("Failed to apply hardware zoom:", e);
+                    }
+                } else {
+                    // Fallback: CSS digital zoom
+                    const video = qrReader.querySelector('video');
+                    if (video) {
+                        video.style.transform = `scale(${val})`;
+                        video.style.transformOrigin = 'center';
+                        video.style.transition = 'transform 0.1s ease-out';
+                    }
+                }
+            };
         }).catch(err => {
             errorMsg.textContent = 'Tidak dapat mengakses kamera. Pastikan izin kamera diberikan.';
             errorState.classList.remove('hidden');
             startBtn.classList.remove('hidden');
+            zoomContainer.classList.add('hidden');
         });
     }
 
